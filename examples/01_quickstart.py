@@ -6,9 +6,8 @@ from aioshad import Client, F
 from aioshad.filters import IsMe
 from aioshad.types import Message
 
-# Initialize client with a session name
-# You can pass proxy="http://127.0.0.1:7897" if needed
-client = Client(session="my_shad_account")
+# Initialize client with session name (e.g. my_account saved by `aioshad login -s my_account`)
+client = Client(session="my_account")
 
 
 # Reply to any text message starting with "echo "

@@ -6,7 +6,7 @@ from aioshad import Client, F
 from aioshad.filters import Command, IsPhoto
 from aioshad.types import Message
 
-client = Client(session="my_shad_account")
+client = Client(session="my_account")
 
 
 @client.on_message(Command("photo", prefix="!."))

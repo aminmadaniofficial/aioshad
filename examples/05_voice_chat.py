@@ -6,7 +6,7 @@ from aioshad import Client
 from aioshad.filters import Command, IsMe
 from aioshad.types import Message
 
-client = Client(session="my_shad_account")
+client = Client(session="my_account")
 
 
 @client.on_message(IsMe(), Command("startvc", prefix="!."))

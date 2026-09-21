@@ -1,18 +1,18 @@
-# 🚀 aioshad Examples | نمونه‌های کاربردی سلف‌بات شاد
+# 🚀 aioshad Examples
 
-این پوشه شامل مثال‌های آماده و متنوع برای راه‌اندازی و استفاده از قابلیت‌های `aioshad` است:
+This directory contains practical, production-ready examples showcasing `aioshad` features:
 
-1. **`01_quickstart.py`**: شروع سریع و ساخت ربات اکو با دکوراتور ساده `@client.on_message`.
-2. **`02_commands_and_routers.py`**: معماری ماژولار با روترها (`Router`) و هندلینگ پیشرفته دستورات (`Command`).
-3. **`03_fsm_conversation.py`**: مکالمه مرحله به مرحله و دریافت تعاملی پاسخ کاربر با کانتکست منیجر `Conversation`.
-4. **`04_send_media.py`**: ارسال و دانلود انواع مدیا شامل عکس با تامبنیل، اسناد/فایل‌ها و ویس.
-5. **`05_voice_chat.py`**: مدیریت و کنترل ویس چت‌های گروهی بر بستر WebRTC.
-6. **`06_anti_spam_moderator.py`**: دستیار ادمین گروه و حذف خودکار لینک‌ها.
-7. **`07_multi_account.py`**: اجرای همزمان چند اکانت شاد روی یک ایونت‌لوپ واحد با `ClientManager`.
+1. **`01_quickstart.py`**: Quickstart echo bot and ping command with the `@client.on_message` decorator.
+2. **`02_commands_and_routers.py`**: Modular architecture using `Dispatcher`, `Router`, and command handlers.
+3. **`03_fsm_conversation.py`**: Step-by-step interactive questionnaire using the `Conversation` context manager.
+4. **`04_send_media.py`**: Uploading and downloading photos, documents, and voice notes.
+5. **`05_voice_chat.py`**: Interacting with group and channel WebRTC voice chats.
+6. **`06_anti_spam_moderator.py`**: Automated moderation bot that detects and deletes spam/links in groups.
+7. **`07_multi_account.py`**: Running multiple accounts concurrently on a single event loop with `ClientManager`.
 
-### نحوه اجرا:
+### How to Run:
 ```bash
 python 01_quickstart.py
 ```
-در اولین اجرا، شماره تلفن و کد ورود از شما خواسته شده و نشست در فایل `.session` ذخیره می‌شود.
-در دفعات بعدی نشست به صورت خودکار خوانده می‌شود.
+
+On first execution, the client prompts for your phone number and OTP code, then securely caches the session in `<session_name>.session`. Subsequent runs connect automatically using the saved credentials.

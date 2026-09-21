@@ -15,6 +15,7 @@ from aioshad.crypto import (
     derive_session_key,
     generate_tmp_session,
 )
+from aioshad.exceptions import AioshadError, InvalidAuthError, ShadAPIError
 from aioshad.network import DEFAULT_MESSENGER_HOSTS, Transport
 from aioshad.session import BaseSessionStorage, Session
 from aioshad.types.chat import Chat
@@ -185,7 +186,14 @@ class Methods:
         user_guid = user_data.get("user_guid", "")
 
         if not raw_auth:
-            raise RuntimeError(f"Authentication failed: server did not return auth. Response: {sign_in_response}")
+            data_dict = sign_in_response.get("data", {}) if isinstance(sign_in_response, dict) else {}
+            status_val = data_dict.get("status") or sign_in_response.get("status")
+            if status_val == "CodeIsInvalid":
+                raise InvalidAuthError(
+                    status="CodeIsInvalid",
+                    message="The entered OTP code is invalid or expired. Please verify the code and try again.",
+                )
+            raise AioshadError(f"Authentication failed: server did not return auth. Response: {sign_in_response}")
 
         decrypted_auth = decrypt_rsa_oaep(private_key_pem, raw_auth)
         permanent_key = derive_session_key(decrypted_auth)

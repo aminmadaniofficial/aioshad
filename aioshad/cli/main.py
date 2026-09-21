@@ -38,7 +38,7 @@ if __name__ == "__main__":
 CONFIG_PY_TEMPLATE = """# aioshad Selfbot Configuration
 SESSION_NAME = "my_account"
 ADMIN_GUIDS = []  # Add authorized GUIDs here
-PROXY = None  # e.g. "http://127.0.0.1:7897" if needed
+PROXY = None  # Optional proxy URL if needed
 """
 
 HANDLERS_INIT_TEMPLATE = """from .common import router as common_router

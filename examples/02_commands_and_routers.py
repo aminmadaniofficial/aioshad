@@ -36,7 +36,7 @@ async def main():
     dp.include_router(user_router)
     dp.include_router(group_router)
 
-    client = Client(session="my_shad_account", dispatcher=dp)
+    client = Client(session="my_account", dispatcher=dp)
     await client.start()
 
 
