@@ -174,4 +174,39 @@
     });
   }
 
+  // 6. Mobile docs sidebar toggle
+  const docsAsideBtn = document.getElementById('docsAsideBtn');
+  const docsAside = document.getElementById('docsAside');
+  if (docsAsideBtn && docsAside) {
+    docsAsideBtn.addEventListener('click', () => {
+      const open = docsAside.getAttribute('data-open') === 'true';
+      docsAside.setAttribute('data-open', !open);
+    });
+  }
+
+  // 7. Docs ScrollSpy
+  const docSections = document.querySelectorAll('.docs-article section');
+  const docNavLinks = document.querySelectorAll('.docs-nav-link');
+  const tocNavLinks = document.querySelectorAll('.toc-nav a');
+
+  if (docSections.length > 0) {
+    window.addEventListener('scroll', () => {
+      let currentId = '';
+      docSections.forEach(sec => {
+        const top = sec.offsetTop - 100;
+        if (window.pageYOffset >= top) {
+          currentId = sec.getAttribute('id');
+        }
+      });
+      if (currentId) {
+        docNavLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === `#${currentId}`);
+        });
+        tocNavLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === `#${currentId}`);
+        });
+      }
+    });
+  }
+
 })();
