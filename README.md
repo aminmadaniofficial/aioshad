@@ -2,10 +2,13 @@
 
 [![CI Test Suite](https://github.com/aminmadaniofficial/aioshad/actions/workflows/ci.yml/badge.svg)](https://github.com/aminmadaniofficial/aioshad/actions/workflows/ci.yml)
 [![PyPI Version](https://img.shields.io/pypi/v/aioshad-py.svg?color=blue)](https://pypi.org/project/aioshad-py/)
+[![Documentation](https://img.shields.io/badge/docs-website-blue?style=flat&logo=github)](https://aminmadaniofficial.github.io/aioshad/)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > **A modern, blazingly fast, fully asynchronous Python framework & self-bot library for Shad Messenger (شاد), built on HTTP/2 and AsyncIO.**
+>
+> 📖 **Interactive Documentation & Showcase:** [https://aminmadaniofficial.github.io/aioshad/](https://aminmadaniofficial.github.io/aioshad/)
 
 ---
 
