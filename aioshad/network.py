@@ -83,6 +83,7 @@ class Transport:
             "timeout": httpx.Timeout(timeout, read=timeout),
             "follow_redirects": True,
             "http2": True,
+            "trust_env": bool(proxy),
         }
         if proxy:
             client_kwargs["proxy"] = proxy
