@@ -26,6 +26,11 @@ class Message:
     _client: Optional[Client] = field(default=None, repr=False, compare=False)
 
     @property
+    def message_id(self) -> str:
+        """Alias for id."""
+        return self.id
+
+    @property
     def sender_id(self) -> str:
         """Alias for author_guid for filter and middleware compatibility."""
         return self.author_guid

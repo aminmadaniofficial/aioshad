@@ -25,6 +25,11 @@ class User:
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}".strip() or self.first_name
 
+    @property
+    def user_guid(self) -> str:
+        """Alias for guid."""
+        return self.guid
+
     def __getitem__(self, key: str) -> Any:
         return self.raw[key]
 
