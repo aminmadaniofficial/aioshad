@@ -354,15 +354,15 @@ html[lang="en"] .cell p{line-height:1.6}
 .chat[data-step="2"] .typing{opacity:1}
 .chat[data-step="2"] .typing i{animation:dot 600ms var(--ease) both}
 @keyframes dot{0%,100%{opacity:.3}50%{opacity:1}}
-.js .chat .bubble.user{opacity:0;transform:translateY(6px)}
-.js .chat .bubble.bot:not(.typing){opacity:0;transform:translateY(4px)}
+.chat .bubble.user{opacity:1;transform:none}
+.chat .bubble.bot:not(.typing){opacity:1;transform:none}
 .js .chat[data-step="1"] .bubble.user,.js .chat[data-step="2"] .bubble.user,.js .chat[data-step="3"] .bubble.user{opacity:1;transform:none}
 .js .chat[data-step="3"] .bubble.bot:not(.typing){opacity:1;transform:none}
 
-.js .hero-h1 .ln{opacity:0;transform:translateY(14px);will-change:opacity,transform}
+.hero-h1 .ln{opacity:1;transform:none}
 .js .hero-h1.is-in .ln{opacity:1;transform:none;will-change:auto;transition:opacity 420ms var(--ease),transform 420ms var(--ease)}
 .js .hero-h1.is-in .ln:nth-child(2){transition-delay:80ms}
-.js [data-hero]:not(.is-in){opacity:0;transform:translateY(12px);will-change:opacity,transform}
+[data-hero]{opacity:1;transform:none}
 .js [data-hero].is-in{opacity:1;transform:none;transition:opacity 400ms var(--ease),transform 400ms var(--ease)}
 
 .js [data-reveal]:not([data-reveal="cell"]):not(.is-in){opacity:0;will-change:opacity,transform}
@@ -431,6 +431,12 @@ html[lang="en"] .cell p{line-height:1.6}
 }
 </style>
 
+.kw, .t-kw { color: var(--accent); font-weight: 600; }
+.dec, .t-dec { color: var(--accent-warm); }
+.str, .t-str { color: #A7C080; }
+.cm, .comment, .t-cm { color: var(--muted); font-style: italic; }
+.fn, .t-fn { color: #82AAFF; }
+
 
 <div class="sr-only" id="live" role="status" aria-live="polite"></div>
 
@@ -467,7 +473,7 @@ html[lang="en"] .cell p{line-height:1.6}
 
 <section class="hero wrap" id="top" aria-labelledby="hero-title">
   <div class="hero-text">
-    <h1 class="hero-h1" id="hero-title"><span class="ln" data-i18n="hero.title1">فریم‌ورک مدرن و سریع</span> <span class="ln" data-i18n="hero.title2">پایتون برای شاد.</span></h1>
+    <h1 class="hero-h1 is-in" id="hero-title"><span class="ln" data-i18n="hero.title1">فریم‌ورک مدرن و سریع</span> <span class="ln" data-i18n="hero.title2">پایتون برای شاد.</span></h1>
     <p class="sub" data-i18n="hero.sub">کاملاً async، با معماری الهام‌گرفته از aiogram ۳، اتصالات مالتی‌پلکس HTTP/2 و رمزنگاری نیتیو AES-256 و RSA-1024.</p>
 
     <div class="cta">
@@ -518,7 +524,7 @@ client = Client(session=<span class="str">&quot;my_account&quot;</span>)
 client.run()</code></pre>
       </div>
 
-      <div class="chat" id="chat">
+      <div class="chat" id="chat" data-step="3">
         <div class="chat-head">
           <img id="chatLogo" src="_static/logo.svg" alt="" width="20" height="20" />
           <strong id="chatTitle">Saved Messages</strong>
@@ -535,86 +541,108 @@ client.run()</code></pre>
   </div>
 </section>
 
-<section class="strip" id="highlights" aria-label="نکات کلیدی">
-  <div class="wrap strip-grid">
-    <div class="strip-item">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      <div>
-        <strong data-i18n="strip.h1">اتصال مستقیم به سرورهای لبه شاد</strong>
-        <p data-i18n="strip.p1">ارتباط بومی با شبکه داخلی شاد بدون مرورگر یا پروکسی میانی.</p>
-      </div>
-    </div>
-    <div class="strip-item">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <div>
-        <strong data-i18n="strip.h2">رمزنگاری معکوس‌شده AES-256</strong>
-        <p data-i18n="strip.p2">پیاده‌سازی نیتیو رمزگذاری، کلیدسازی RSA و پروتکل امنیتی شاد.</p>
-      </div>
-    </div>
-    <div class="strip-item">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <div>
-        <strong data-i18n="strip.h3">پشتیبانی از چندین اکانت</strong>
-        <p data-i18n="strip.p3">مدیریت همزمان ده‌ها اکانت و سلف‌بات در یک حلقه رخداد یکپارچه.</p>
-      </div>
-    </div>
+<section class="strip" id="platforms" aria-labelledby="platforms-h">
+  <div class="wrap strip-inner">
+    <h2 class="sr-only" id="platforms-h">نکات کلیدی معماری</h2>
+    <ul class="platforms">
+      <li>HTTP/2 Multiplexing</li>
+      <li>AES-256 Native</li>
+      <li>aiogram 3 Style</li>
+      <li>Multi-Account</li>
+    </ul>
+    <p class="strip-note">
+      <span data-i18n="strip.note">اتصال مستقیم به کلاسترهای لبه شاد (*.iranlms.ir)</span>
+      <a href="document/quickstart.html" class="inline-link" data-i18n="strip.link">شروع سریع &larr;</a>
+    </p>
   </div>
 </section>
 
 <section class="section" id="features" aria-labelledby="features-h">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="features-h" data-i18n="feat.heading">ویژگی‌های مهندسی‌شده برای مقیاس‌پذیری</h2>
-      <p class="sub" data-i18n="feat.sub">طراحی‌شده از پایه برای سرعت، قابلیت اطمینان و کدهای سازمان‌یافته.</p>
-    </div>
+    <h2 id="features-h" data-i18n="features.title">طراحی‌شده از پایه برای مقیاس‌پذیری و پایداری</h2>
 
-    <div class="features-grid">
-      <article class="card">
+    <div class="bento">
+      <article class="cell cell--7 cell--wide">
         <header>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          <h3 data-i18n="feat.f1.h">معماری الهام‌گرفته از aiogram ۳</h3>
+          <h3 data-i18n="f.aio.t">معماری الهام‌گرفته از aiogram ۳</h3>
+          <p data-i18n="f.aio.b">روترهای تودرتو، فیلترهای جادویی F و ساختار کاملاً ماژولار بدون وابستگی‌های پیچیده.</p>
         </header>
-        <p data-i18n="feat.f1.p">استفاده از روترها (Routers)، دیسپچر، فیلترهای جادویی F و ساختار ماژولار که توسعه بات‌های بزرگ را تمیز و لذت‌بخش می‌کند.</p>
+        <div class="art"><pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Router, F
+<span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
+
+router = Router()
+
+<span class="dec">@router.message</span>(F.text == <span class="str">&quot;!ping&quot;</span>)
+<span class="kw">async def</span> <span class="fn">ping_cmd</span>(msg: Message):
+    <span class="kw">await</span> msg.reply(<span class="str">&quot;Pong!&quot;</span>)</code></pre></div>
       </article>
 
-      <article class="card">
+      <article class="cell cell--5">
         <header>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-          <h3 data-i18n="feat.f2.h">مدیریت سشن‌های منعطف</h3>
+          <h3 data-i18n="f.crypto.t">رمزنگاری معکوس‌شده نیتیو</h3>
+          <p data-i18n="f.crypto.b">پیاده‌سازی پرسرعت AES-256-CBC و کلیدسازی RSA-1024 بدون نیاز به مرورگر headless.</p>
         </header>
-        <p data-i18n="feat.f2.p">ذخیره‌سازی آسان کلیدها با فایل سشن (JSON)، پایگاه‌داده امن SQLite و حافظه موقت Memory برای تست و استقرار ابری.</p>
+        <div class="art"><pre><code><span class="kw">from</span> aioshad.crypto <span class="kw">import</span> encrypt_payload
+
+<span class="comment"># Direct edge payload encryption</span>
+enc = encrypt_payload(data, aes_key)</code></pre></div>
       </article>
 
-      <article class="card">
+      <article class="cell cell--4">
         <header>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <h3 data-i18n="feat.f3.h">مکالمات خطی و ماشین وضعیت (FSM)</h3>
+          <h3 data-i18n="f.session.t">انواع ذخیره‌ساز سشن</h3>
+          <p data-i18n="f.session.b">پشتیبانی از FileSession، پایگاه‌داده ACID SQLite و MemorySession برای استقرار ابری.</p>
         </header>
-        <p data-i18n="feat.f3.p">ایجاد پرسش‌نامه‌ها و فرم‌های مرحله‌به‌مرحله با کانتکست منیجر گفت‌وگو و ماشین وضعیت کامل برای سناریوهای چندمرحله‌ای.</p>
+        <div class="art"><pre><code><span class="kw">from</span> aioshad.session <span class="kw">import</span> SQLiteSessionStorage
+
+storage = SQLiteSessionStorage(<span class="str">&quot;bot.db&quot;</span>)
+client = Client(session=storage)</code></pre></div>
       </article>
 
-      <article class="card">
+      <article class="cell cell--4">
         <header>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          <h3 data-i18n="feat.f4.h">پشتیبانی از ویس چت گروهی</h3>
+          <h3 data-i18n="f.multi.t">چندین اکانت همزمان</h3>
+          <p data-i18n="f.multi.b">ارکستراسیون و اجرای موازی ده‌ها اکانت و سلف‌بات با شیء ClientManager در یک حلقه رخداد.</p>
         </header>
-        <p data-i18n="feat.f4.p">امکان ایجاد، پیوستن، مدیریت وضعیت میکروفون و کنترل نشست‌های صوتی WebRTC در گروه‌های شاد به صورت خودکار.</p>
+        <div class="art"><pre><code>manager = ClientManager()
+manager.add_client(bot_support)
+manager.add_client(bot_sales)
+<span class="kw">await</span> manager.start_all()</code></pre></div>
       </article>
 
-      <article class="card">
+      <article class="cell cell--4">
         <header>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <h3 data-i18n="feat.f5.h">آپلود و دانلود سریع مدیا</h3>
+          <h3 data-i18n="f.voice.t">ویس چت گروهی WebRTC</h3>
+          <p data-i18n="f.voice.b">ایجاد نشست صوتی گروهی، کنترل وضعیت میکروفون و تعامل مستقیم در اتاق‌های گفتگو.</p>
         </header>
-        <p data-i18n="feat.f5.p">انتقال چانک‌شده و استریم فایل‌ها، تصاویر، اسناد و ویس‌ها با محاسبه اتوماتیک تامبنیل و هش‌های رمزنگاری شده.</p>
+        <div class="art"><pre><code><span class="kw">await</span> client.create_voice_chat(gid)
+<span class="kw">await</span> client.change_voice_chat_voice_status(
+    gid, vc_id, status=<span class="str">&quot;speaking&quot;</span>
+)</code></pre></div>
       </article>
 
-      <article class="card">
+      <article class="cell cell--6 cell--wide">
         <header>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-          <h3 data-i18n="feat.f6.h">ابزار خط فرمان (CLI) اختصاصی</h3>
+          <h3 data-i18n="f.conv.t">مکالمات خطی و ماشین وضعیت (FSM)</h3>
+          <p data-i18n="f.conv.b">ایجاد پرسش‌نامه‌ها و فرم‌های تعاملی مرحله‌به‌مرحله با کانتکست منیجر گفت‌وگو و FSMContext.</p>
         </header>
-        <p data-i18n="feat.f6.p">راه‌اندازی فوری پروژه‌ها با aioshad init، لاگین مستقیم در ترمینال و مشاهده اطلاعات سشن بدون نیاز به نوشتن کد اولیه.</p>
+        <div class="art"><pre><code><span class="kw">async with</span> client.conversation(chat_id, timeout=60) <span class="kw">as</span> conv:
+    <span class="kw">await</span> conv.send(<span class="str">&quot;نام شما چیست؟&quot;</span>)
+    name = <span class="kw">await</span> conv.get_response()
+    <span class="kw">await</span> conv.send(f<span class="str">&quot;خوشبختم {name.text}!&quot;</span>)</code></pre></div>
+      </article>
+
+      <article class="cell cell--6">
+        <header>
+          <h3 data-i18n="f.docs.t">مستندات کامل Sphinx</h3>
+          <p data-i18n="f.docs.b">راهنماهای گام‌به‌گام، مراجع تفصیلی متدها، مدل‌ها و کلاس‌های هسته فریم‌ورک.</p>
+        </header>
+        <ul class="art linklist">
+          <li><a href="document/quickstart.html" data-i18n="docs.quick">راهنمای شروع سریع (Quickstart) &rarr;</a></li>
+          <li><a href="document/guides/sessions.html" data-i18n="docs.sessions">مدیریت نشست‌ها و دیتابیس &rarr;</a></li>
+          <li><a href="document/guides/routers_handlers.html" data-i18n="docs.routers">روترها و تفکیک فایل‌ها &rarr;</a></li>
+          <li><a href="document/reference/client.html" data-i18n="docs.client">مرجع کلاس اصلی Client &rarr;</a></li>
+        </ul>
       </article>
     </div>
   </div>
@@ -622,19 +650,16 @@ client.run()</code></pre>
 
 <section class="section section--ruled" id="examples" aria-labelledby="ex-h">
   <div class="wrap">
-    <div class="section-head">
-      <h2 id="ex-h" data-i18n="ex.heading">کدهای تمیز و الگوهای آماده</h2>
-      <p class="sub" data-i18n="ex.sub">نمونه‌هایی واقعی از نحوه پیاده‌سازی قابلیت‌ها در aioshad.</p>
-    </div>
+    <h2 id="ex-h" data-i18n="ex.heading">کدهای تمیز و الگوهای آماده</h2>
 
-    <div class="tabs" role="tablist" id="exTabs">
+    <div class="ex-tabs" role="tablist" id="exTabs">
       <button type="button" role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1">روترها و فیلترها</button>
       <button type="button" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2">مکالمه مرحله‌به‌مرحله</button>
       <button type="button" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3">چند اکانت همزمان</button>
       <button type="button" role="tab" id="tab-4" aria-selected="false" aria-controls="panel-4">سشن SQLite</button>
     </div>
 
-    <div class="panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+    <div class="ex-panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
 <pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Router, F
 <span class="kw">from</span> aioshad.filters <span class="kw">import</span> Command, CommandObject
 <span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
@@ -652,7 +677,7 @@ router = Router()
 Author: {msg.author_guid}&quot;</span>)</code></pre>
     </div>
 
-    <div class="panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+    <div class="ex-panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
 <pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Client, F
 <span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
 
@@ -670,7 +695,7 @@ client = Client(session=<span class="str">&quot;bot&quot;</span>)
         <span class="kw">await</span> conv.send(f<span class="str">&quot;ثبت شد: {name_msg.text} ({age_msg.text} سال)&quot;</span>)</code></pre>
     </div>
 
-    <div class="panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+    <div class="ex-panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" hidden>
 <pre><code><span class="kw">import</span> asyncio
 <span class="kw">from</span> aioshad <span class="kw">import</span> Client, ClientManager, F
 <span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
@@ -691,7 +716,7 @@ manager.add_client(acc2)
     asyncio.run(manager.start_all())</code></pre>
     </div>
 
-    <div class="panel" id="panel-4" role="tabpanel" aria-labelledby="tab-4" hidden>
+    <div class="ex-panel" id="panel-4" role="tabpanel" aria-labelledby="tab-4" hidden>
 <pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Client
 <span class="kw">from</span> aioshad.session <span class="kw">import</span> SQLiteSessionStorage
 
@@ -707,9 +732,9 @@ client.run()</code></pre>
 </main>
 
 <footer class="site-footer">
-  <div class="wrap foot-inner">
+  <div class="wrap footer-inner">
     <div class="foot-brand">
-      <img src="_static/logo.svg" width="20" height="20" alt="" />
+      <img src="_static/logo.svg" width="22" height="22" alt="" />
       <span>aioshad</span>
     </div>
 
@@ -720,8 +745,13 @@ client.run()</code></pre>
       <a href="https://pypi.org/project/aioshad-py/" rel="noopener" target="_blank">PyPI</a>
     </nav>
 
-    <div class="foot-copy">
-      <span>MIT License &bull; Mohammadamin Madani</span>
+    <div class="install">
+      <span class="prompt" aria-hidden="true">$</span>
+      <code>pip install aioshad-py</code>
+      <button class="copy" type="button" data-copy="pip install aioshad-py" aria-label="کپی">
+        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+        <span class="ok" aria-hidden="true"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copy.done">کپی شد</span></span>
+      </button>
     </div>
   </div>
 </footer>
@@ -768,7 +798,7 @@ client.run()</code></pre>
 
   // Tabs
   var tabButtons = qsa('#exTabs button[role="tab"]');
-  var panels = qsa('.panel[role="tabpanel"]');
+  var panels = qsa('.ex-panel[role="tabpanel"]');
   tabButtons.forEach(function(btn, idx){
     btn.addEventListener('click', function(){
       tabButtons.forEach(function(b){ b.setAttribute('aria-selected', 'false'); });
@@ -791,62 +821,62 @@ client.run()</code></pre>
       'cta.primary': 'شروع سریع',
       'cta.secondary': 'مستندات API',
       'copy.done': 'کپی شد',
-      'strip.h1': 'اتصال مستقیم به سرورهای لبه شاد',
-      'strip.p1': 'ارتباط بومی با شبکه داخلی شاد بدون مرورگر یا پروکسی میانی.',
-      'strip.h2': 'رمزنگاری معکوس‌شده AES-256',
-      'strip.p2': 'پیاده‌سازی نیتیو رمزگذاری، کلیدسازی RSA و پروتکل امنیتی شاد.',
-      'strip.h3': 'پشتیبانی از چندین اکانت',
-      'strip.p3': 'مدیریت همزمان ده‌ها اکانت و سلف‌بات در یک حلقه رخداد یکپارچه.',
-      'feat.heading': 'ویژگی‌های مهندسی‌شده برای مقیاس‌پذیری',
-      'feat.sub': 'طراحی‌شده از پایه برای سرعت، قابلیت اطمینان و کدهای سازمان‌یافته.',
-      'feat.f1.h': 'معماری الهام‌گرفته از aiogram ۳',
-      'feat.f1.p': 'استفاده از روترها (Routers)، دیسپچر، فیلترهای جادویی F و ساختار ماژولار که توسعه بات‌های بزرگ را تمیز و لذت‌بخش می‌کند.',
-      'feat.f2.h': 'مدیریت سشن‌های منعطف',
-      'feat.f2.p': 'ذخیره‌سازی آسان کلیدها با فایل سشن (JSON)، پایگاه‌داده امن SQLite و حافظه موقت Memory برای تست و استقرار ابری.',
-      'feat.f3.h': 'مکالمات خطی و ماشین وضعیت (FSM)',
-      'feat.f3.p': 'ایجاد پرسش‌نامه‌ها و فرم‌های مرحله‌به‌مرحله با کانتکست منیجر گفت‌وگو و ماشین وضعیت کامل برای سناریوهای چندمرحله‌ای.',
-      'feat.f4.h': 'پشتیبانی از ویس چت گروهی',
-      'feat.f4.p': 'امکان ایجاد، پیوستن، مدیریت وضعیت میکروفون و کنترل نشست‌های صوتی WebRTC در گروه‌های شاد به صورت خودکار.',
-      'feat.f5.h': 'آپلود و دانلود سریع مدیا',
-      'feat.f5.p': 'انتقال چانک‌شده و استریم فایل‌ها، تصاویر، اسناد و ویس‌ها با محاسبه اتوماتیک تامبنیل و هش‌های رمزنگاری شده.',
-      'feat.f6.h': 'ابزار خط فرمان (CLI) اختصاصی',
-      'feat.f6.p': 'راه‌اندازی فوری پروژه‌ها با aioshad init، لاگین مستقیم در ترمینال و مشاهده اطلاعات سشن بدون نیاز به نوشتن کد اولیه.',
-      'ex.heading': 'کدهای تمیز و الگوهای آماده',
-      'ex.sub': 'نمونه‌هایی واقعی از نحوه پیاده‌سازی قابلیت‌ها در aioshad.'
+      'strip.note': 'اتصال مستقیم به کلاسترهای لبه شاد (*.iranlms.ir)',
+      'strip.link': 'شروع سریع ←',
+      'features.title': 'طراحی‌شده از پایه برای مقیاس‌پذیری و پایداری',
+      'f.aio.t': 'معماری الهام‌گرفته از aiogram ۳',
+      'f.aio.b': 'روترهای تودرتو، فیلترهای جادویی F و ساختار کاملاً ماژولار بدون وابستگی‌های پیچیده.',
+      'f.crypto.t': 'رمزنگاری معکوس‌شده نیتیو',
+      'f.crypto.b': 'پیاده‌سازی پرسرعت AES-256-CBC و کلیدسازی RSA-1024 بدون نیاز به مرورگر headless.',
+      'f.session.t': 'انواع ذخیره‌ساز سشن',
+      'f.session.b': 'پشتیبانی از FileSession، پایگاه‌داده ACID SQLite و MemorySession برای استقرار ابری.',
+      'f.multi.t': 'چندین اکانت همزمان',
+      'f.multi.b': 'ارکستراسیون و اجرای موازی ده‌ها اکانت و سلف‌بات با شیء ClientManager در یک حلقه رخداد.',
+      'f.voice.t': 'ویس چت گروهی WebRTC',
+      'f.voice.b': 'ایجاد نشست صوتی گروهی، کنترل وضعیت میکروفون و تعامل مستقیم در اتاق‌های گفتگو.',
+      'f.conv.t': 'مکالمات خطی و ماشین وضعیت (FSM)',
+      'f.conv.b': 'ایجاد پرسش‌نامه‌ها و فرم‌های تعاملی مرحله‌به‌مرحله با کانتکست منیجر گفت‌وگو و FSMContext.',
+      'f.docs.t': 'مستندات کامل Sphinx',
+      'f.docs.b': 'راهنماهای گام‌به‌گام، مراجع تفصیلی متدها، مدل‌ها و کلاس‌های هسته فریم‌ورک.',
+      'docs.quick': 'راهنمای شروع سریع (Quickstart) →',
+      'docs.sessions': 'مدیریت نشست‌ها و دیتابیس →',
+      'docs.routers': 'روترها و تفکیک فایل‌ها →',
+      'docs.client': 'مرجع کلاس اصلی Client →',
+      'ex.heading': 'کدهای تمیز و الگوهای آماده'
     },
     en: {
       'nav.docs': 'Docs',
       'nav.quickstart': 'Quickstart',
       'nav.features': 'Features',
       'nav.examples': 'Examples',
-      'hero.title1': 'Blazingly fast & modern',
-      'hero.title2': 'Python framework for Shad.',
-      'hero.sub': 'Fully asynchronous, aiogram 3-inspired design, HTTP/2 edge multiplexing, and reverse-engineered AES-256 and RSA-1024 encryption.',
+      'hero.title1': 'Modern, Blazingly Fast',
+      'hero.title2': 'Python Framework for Shad.',
+      'hero.sub': 'Fully asynchronous, aiogram 3-inspired architecture, HTTP/2 edge multiplexing, and reverse-engineered AES-256 and RSA-1024 encryption.',
       'cta.primary': 'Get Started',
       'cta.secondary': 'API Reference',
       'copy.done': 'Copied',
-      'strip.h1': 'Direct Edge Gateways',
-      'strip.p1': 'Native connection to domestic Shad clusters with zero headless browsers.',
-      'strip.h2': 'Reverse-Engineered AES-256',
-      'strip.p2': 'Native implementation of encryption, RSA key generation, and protocol handshakes.',
-      'strip.h3': 'Multi-Account Concurrency',
-      'strip.p3': 'Manage dozens of accounts and self-bots simultaneously in a single event loop.',
-      'feat.heading': 'Engineered for Scale and Speed',
-      'feat.sub': 'Built from the ground up for high reliability, clean architecture, and rapid deployment.',
-      'feat.f1.h': 'aiogram 3 Inspired Architecture',
-      'feat.f1.p': 'Modular Routers, nested Dispatchers, Magic Filter F expressions, and type-safe payloads.',
-      'feat.f2.h': 'Flexible Session Storage',
-      'feat.f2.p': 'FileSessionStorage, ACID SQLiteSessionStorage, and MemorySessionStorage for testing.',
-      'feat.f3.h': 'Conversations & FSM',
-      'feat.f3.p': 'Linear interactive multi-step dialogues and robust Finite State Machine workflows.',
-      'feat.f4.h': 'WebRTC Group Voice Chat',
-      'feat.f4.p': 'Automate group voice room creation, participation, and speaker audio status control.',
-      'feat.f5.h': 'Media Upload & Streaming',
-      'feat.f5.p': 'Chunked streaming for photos, documents, and voice messages with auto thumbnail extraction.',
-      'feat.f6.h': 'Dedicated CLI Tools',
-      'feat.f6.p': 'Instant project scaffolding via aioshad init, interactive terminal login, and key inspection.',
-      'ex.heading': 'Clean Code & Ready Patterns',
-      'ex.sub': 'Real-world examples demonstrating how to build with aioshad.'
+      'strip.note': 'Direct native edge connection to domestic Shad clusters (*.iranlms.ir)',
+      'strip.link': 'Get Started →',
+      'features.title': 'Engineered for Scale and High Reliability',
+      'f.aio.t': 'aiogram 3 Inspired Architecture',
+      'f.aio.b': 'Nested Routers, Magic Filter F expressions, and type-safe modular bot structures.',
+      'f.crypto.t': 'Reverse-Engineered Cryptography',
+      'f.crypto.b': 'High-performance AES-256-CBC and RSA-1024 without headless browser overhead.',
+      'f.session.t': 'Flexible Session Backends',
+      'f.session.b': 'FileSessionStorage, ACID SQLiteSessionStorage, and ephemeral MemorySession.',
+      'f.multi.t': 'Multi-Account Concurrency',
+      'f.multi.b': 'Run and orchestrate dozens of accounts simultaneously with ClientManager.',
+      'f.voice.t': 'WebRTC Group Voice Chat',
+      'f.voice.b': 'Create voice rooms, manage speaker microphone status, and interact in groups.',
+      'f.conv.t': 'Conversations & FSM',
+      'f.conv.b': 'Linear step-by-step dialogues with context managers and Finite State Machines.',
+      'f.docs.t': 'Full Sphinx Documentation',
+      'f.docs.b': 'Step-by-step guides, complete API reference, and real-world patterns.',
+      'docs.quick': 'Quickstart Guide →',
+      'docs.sessions': 'Sessions & Storage →',
+      'docs.routers': 'Routers & Handlers →',
+      'docs.client': 'Client API Reference →',
+      'ex.heading': 'Clean Code & Ready Patterns'
     }
   };
 

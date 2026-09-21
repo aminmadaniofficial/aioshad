@@ -1,60 +1,77 @@
 Session Storage
 ===============
 
-``aioshad`` provides flexible and secure session management. A session stores authentication keys, user GUID, device profile, and temporary authorization tokens so that you do not need to re-enter OTP codes upon application restarts.
+A session preserves authentication credentials so your application can restart and reconnect immediately without re-requesting OTP verification codes.
 
-Session Backends
-----------------
+Stored Data
+-----------
 
-``aioshad`` includes three built-in session storage backends:
+A session safely stores:
 
-1. **FileSessionStorage** (Default)
-   Saves session credentials in a JSON file with `.session` extension.
-   Ideal for simple bots and local scripts.
+- Decrypted AES session key and initialization vectors.
+- Asymmetric RSA-1024 private key.
+- Authenticated user GUID and registered phone number.
+- Client device fingerprint (app version, OS version, device name).
 
-2. **SQLiteSessionStorage**
-   Stores session data inside an ACID-compliant SQLite database file.
-   Supports multiple sessions concurrently in one database.
+Storage Engines
+---------------
 
-3. **MemorySessionStorage**
-   Keeps session data purely in RAM for testing or short-lived serverless tasks.
+FileSessionStorage
+~~~~~~~~~~~~~~~~~~
 
-File Session Example
---------------------
+The default engine. Writes credentials into a JSON file with `.session` extension:
 
 .. code-block:: python
 
    from aioshad import Client
    from aioshad.session import FileSessionStorage
 
+   # Explicit storage object
    storage = FileSessionStorage("account1.session")
    client = Client(session=storage)
 
-You can also pass a string path directly:
-
-.. code-block:: python
-
+   # Or convenient string shorthand
    client = Client(session="account1")
-   # Automatically resolves to account1.session
 
-SQLite Session Example
-----------------------
+SQLiteSessionStorage
+~~~~~~~~~~~~~~~~~~~~
+
+Ideal for multi-tenant applications or hosting multiple sessions in a single database file:
 
 .. code-block:: python
 
    from aioshad import Client
    from aioshad.session import SQLiteSessionStorage
 
-   storage = SQLiteSessionStorage("sessions.db", session_name="bot_main")
+   storage = SQLiteSessionStorage("sessions.db", session_name="bot_primary")
    client = Client(session=storage)
 
-Security Best Practices
------------------------
+Benefits of SQLite:
 
-- Never commit `.session` or `.db` files into public git repositories.
-- Add `*.session` and `*.db` to your `.gitignore`.
-- On Linux servers, restrict session file permissions:
+- ACID transactional safety.
+- Concurrently accessible by multiple worker processes.
+- Single-file backups for entire bot fleets.
+
+MemorySessionStorage
+~~~~~~~~~~~~~~~~~~~~
+
+Stores credentials purely in memory. All state is lost upon process exit. Useful for unit tests or ephemeral containerized tasks:
+
+.. code-block:: python
+
+   from aioshad import Client
+   from aioshad.session import MemorySessionStorage
+
+   storage = MemorySessionStorage()
+   client = Client(session=storage)
+
+Security Recommendations
+------------------------
+
+- Always exclude session files from version control by adding ``*.session`` and ``*.db`` to your ``.gitignore``.
+- Restrict file access permissions on production servers:
 
 .. code-block:: bash
 
    chmod 600 *.session
+   chmod 600 *.db
