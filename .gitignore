@@ -54,3 +54,8 @@ htmlcov/
 *.db
 *.sqlite
 *.sqlite3
+
+# Documentation build outputs
+_site/
+docs/_build/
+

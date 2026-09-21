@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="fa" dir="rtl" id="root">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>aioshad — فریم‌ورک سریع و مدرن پایتون برای شاد</title>
+<meta name="description" content="کتابخانه مدرن، کاملاً asynchronous و موتور سلف‌بات برای شاد (Shad) با معماری aiogram 3 و رمزنگاری نیتیو AES-256." />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#F3F1EC" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0E0F12" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="aioshad — فریم‌ورک سریع و مدرن پایتون برای شاد" />
+<meta property="og:description" content="کتابخانه مدرن، کاملاً asynchronous و موتور سلف‌بات برای شاد با معماری aiogram 3." />
+<link rel="icon" href="_static/logo.svg" type="image/svg+xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  try{
+    var d=document.documentElement,t=localStorage.getItem('aioshad.theme'),l=localStorage.getItem('aioshad.lang');
+    if(t==='light'||t==='dark')d.dataset.theme=t;
+    if(l==='en'){d.lang='en';d.dir='ltr';}
+  }catch(e){}
+})();
+</script>
+
+<style>
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn"),url("_static/fonts/Vazirmatn-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn Bold"),url("_static/fonts/Vazirmatn-Bold.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Geist";src:local("Geist"),url("_static/fonts/Geist-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Geist Mono";src:local("Geist Mono"),url("_static/fonts/GeistMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+
+:root{
+  --bg:#F3F1EC; --surface:#FAF9F6; --text:#16161A; --muted:#5F5E5A;
+  --line:#DAD6CD; --accent:#1F4FE0; --accent-warm:#F28C1B;
+  --warm-ink:#B45309;
+  --dx:12px;
+
+  --font-body:"Geist","Vazirmatn","Vazir",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --font-head:"Geist","Vazirmatn","Vazir",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+
+  --r-1:4px; --r-2:6px; --r-3:8px;
+  --gutter:clamp(16px,4.5vw,32px);
+  --section:clamp(64px,9vw,112px);
+  --header-h:56px;
+  --ease:cubic-bezier(.2,.7,.2,1); --dur:180ms;
+  color-scheme:light dark;
+}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E0F12; --surface:#14161A; --text:#ECEAE4; --muted:#9A988F;
+  --line:#26282D; --accent:#5B82FF; --accent-warm:#FFB347; --warm-ink:#FFB347;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E0F12; --surface:#14161A; --text:#ECEAE4; --muted:#9A988F;
+    --line:#26282D; --accent:#5B82FF; --accent-warm:#FFB347; --warm-ink:#FFB347;
+  }
+}
+html[dir="rtl"]{--dx:-12px}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 16px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font-body);font-size:17px;line-height:1.75;
+  overflow-x:hidden;overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+}
+html[lang="en"] body{line-height:1.6}
+h1,h2,h3{font-family:var(--font-head);font-weight:700;line-height:1.2;margin:0;text-wrap:balance}
+html[lang="en"] h1,html[lang="en"] h2,html[lang="en"] h3{font-weight:600;letter-spacing:-.025em}
+p{margin:0}
+a{color:inherit}
+svg{flex:none}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;inset-inline-start:16px;top:-100px;z-index:100;background:var(--surface);
+  border:1px solid var(--line);padding:8px 12px;border-radius:var(--r-1)}
+.skip:focus{top:12px}
+.wrap{width:100%;max-width:1120px;margin-inline:auto;padding-inline:var(--gutter)}
+
+code,pre,.code{font-family:var(--font-mono);font-feature-settings:"liga" 0,"calt" 0;
+  direction:ltr;text-align:left;unicode-bidi:isolate}
+pre{margin:0;padding:18px 20px;font-size:13px;line-height:1.7;tab-size:4;
+  overflow-x:auto;max-width:100%;scrollbar-width:thin;background:var(--surface)}
+:not(pre)>code{font-size:.9em}
+.t-kw,.t-dec{color:var(--accent)}
+.t-str{color:var(--warm-ink)}
+.t-cm{color:var(--muted);font-style:italic}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 18px;
+  border:1px solid var(--line);border-radius:var(--r-1);font:inherit;font-size:15px;font-weight:500;line-height:1;
+  text-decoration:none;cursor:pointer;color:var(--text);background:transparent;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.btn:active,.icon-btn:active,.lang-btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--text);border-color:var(--text);color:var(--bg)}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn-ghost:hover{background:var(--surface);background:color-mix(in oklab,var(--accent-warm) 7%,var(--surface));border-color:var(--muted)}
+.icon-btn,.lang-btn{display:grid;place-items:center;min-width:36px;height:36px;padding:0;
+  background:none;border:1px solid var(--line);border-radius:var(--r-1);color:var(--muted);cursor:pointer;
+  font:inherit;font-size:13px;font-weight:500;transition:color var(--dur) var(--ease),border-color var(--dur) var(--ease),transform var(--dur) var(--ease)}
+#themeBtn svg{transition:transform 300ms var(--ease)}
+.icon-btn:hover,.lang-btn:hover{color:var(--text);border-color:var(--muted)}
+.lang-btn{padding-inline:8px;font-family:var(--font-mono)}
+
+.copy{position:relative;display:inline-grid;place-items:center;min-width:34px;height:34px;padding:0 8px;
+  background:none;border:0;border-radius:var(--r-1);color:var(--muted);cursor:pointer;font:inherit;
+  transition:color var(--dur) var(--ease),background var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.copy:hover{color:var(--text);background:transparent;background:color-mix(in oklab,var(--accent-warm) 9%,transparent)}
+.copy:active{transform:translateY(1px)}
+.copy .ico,.copy .ok{grid-area:1/1}
+.copy .ok{display:inline-flex;align-items:center;gap:5px;visibility:hidden}
+.copy .msg{font-size:12px;line-height:1;white-space:nowrap}
+.copy .chk{width:12px;height:12px;color:var(--warm-ink)}
+.copy .chk path{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset 260ms var(--ease) 60ms}
+.copy[data-state="done"]{color:var(--text)}
+.copy[data-state="done"] .ico{visibility:hidden}
+.copy[data-state="done"] .ok{visibility:visible}
+.copy[data-state="done"] .chk path{stroke-dashoffset:0}
+
+.install{direction:ltr;display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;
+  padding-block:5px;padding-inline:14px 5px;border:1px solid var(--line);border-radius:var(--r-2);background:var(--surface)}
+.install .prompt{color:var(--muted);font-family:var(--font-mono);font-size:13px;user-select:none}
+.install code{font-size:14px;white-space:nowrap}
+
+.site-header{position:sticky;top:0;z-index:50;height:var(--header-h)}
+.site-header::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);
+  border-block-end:1px solid var(--line);transition:opacity var(--dur) var(--ease)}
+.js .site-header:not([data-scrolled])::before{opacity:0}
+.header-inner{display:flex;align-items:center;gap:16px;height:100%}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;
+  font-family:"Geist",var(--font-body);font-weight:600;font-size:18px;letter-spacing:-.01em}
+.brand img{width:24px;height:24px;display:block}
+.main{display:flex;align-items:center;gap:22px;margin-inline-start:16px}
+.main a{color:var(--muted);text-decoration:none;font-size:15px;padding:6px 2px;transition:color var(--dur) var(--ease)}
+.main a:hover,.main a:focus-visible{color:var(--text)}
+.ext{direction:ltr;unicode-bidi:isolate}
+.ext svg{display:inline-block;width:10px;height:10px;margin-inline-start:5px}
+.actions{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.actions .btn{min-height:36px;padding:0 14px;font-size:14px}
+.menu-btn{display:none}
+.menu-btn .i-close{display:none}
+.menu-btn[aria-expanded="true"] .i-open{display:none}
+.menu-btn[aria-expanded="true"] .i-close{display:block}
+
+@media (max-width:820px){
+  .menu-btn{display:grid}
+  .main{display:none;position:absolute;inset-inline:0;top:100%;flex-direction:column;align-items:stretch;gap:0;
+    margin:0;padding:4px var(--gutter) 12px;background:var(--bg);border-block-end:1px solid var(--line)}
+  .site-header[data-open="true"] .main{display:flex}
+  .main a{padding:14px 0;font-size:16px;border-block-end:1px solid var(--line)}
+  .main a:last-child{border-block-end:0}
+}
+@media (max-width:520px){.hide-sm{display:none}}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:clamp(36px,6vw,72px);align-items:start;
+  padding-block:clamp(36px,7vw,96px) clamp(56px,8vw,96px)}
+.hero>*{min-width:0}
+.hero h1{font-size:clamp(2.6rem,1.4rem + 4.4vw,4rem);line-height:1.12;letter-spacing:0;margin-block-end:20px}
+.hero h1 .ln{display:block}
+html[lang="en"] .hero h1{font-size:clamp(2.4rem,1.2rem + 4vw,3.4rem);line-height:1.06;letter-spacing:-.035em}
+.sub{font-size:clamp(17px,1.2vw + 12px,19px);color:var(--muted);max-width:46ch;margin-block-end:28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-block-end:22px}
+@media (max-width:960px){.hero{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.cta .btn{flex:1 1 0}}
+
+.demo{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;padding:3px;
+  border:1px solid var(--line);border-radius:var(--r-2);background:var(--surface)}
+.tabs [role="tab"]{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:0 10px;
+  background:none;border:1px solid transparent;border-radius:var(--r-1);color:var(--muted);
+  font:inherit;font-size:14px;font-family:"Geist",var(--font-body);cursor:pointer;
+  transition:color var(--dur) var(--ease),background var(--dur) var(--ease)}
+.tabs [role="tab"]:hover{color:var(--text)}
+.tabs [role="tab"][aria-selected="true"]{color:var(--text);background:var(--bg);background:color-mix(in oklab,var(--accent-warm) 6%,var(--bg));border-color:var(--line)}
+.tabs [role="tab"][aria-selected="true"]::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent-warm)}
+.demo-panel{display:flex;flex-direction:column;gap:12px;min-width:0}
+
+.code-panel{border:1px solid var(--line);border-radius:var(--r-2);background:var(--surface);overflow:hidden}
+.code-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:38px;padding-inline:14px 4px;
+  border-block-end:1px solid var(--line);font-family:var(--font-mono);font-size:12px;color:var(--muted);direction:ltr}
+.code-head .copy{height:30px}
+.code-panel pre{min-height:calc(9 * 1.7 * 13px + 36px);border:0}   /* ۹ خط؛ بدون پرش هنگام تایپ */
+.caret{display:inline-block;width:.55ch;height:1.15em;vertical-align:text-bottom;background:var(--accent-warm);
+  animation:blink 1s steps(1,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+@media (max-width:430px){
+  .code-panel pre{font-size:12px;padding:16px 14px;min-height:calc(9 * 1.7 * 12px + 32px)}
+  .ex-panel pre{font-size:12px;padding:16px 14px}
+  .cell pre{font-size:12px;padding:12px 14px}
+}
+@media (max-width:380px){
+  .code-panel pre{font-size:11px;min-height:calc(9 * 1.7 * 11px + 32px)}
+}
+
+.chat{direction:ltr;text-align:left;border:1px solid var(--line);border-radius:var(--r-2);background:var(--surface);overflow:hidden}
+.chat-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-block-end:1px solid var(--line);font-size:14px}
+.chat-head img{width:20px;height:20px;display:block}
+.chat-head strong{font-weight:600;font-family:"Geist",sans-serif}
+.chat-head small{color:var(--muted);font-family:var(--font-mono);font-size:12px}
+.chat-body{display:flex;flex-direction:column;gap:8px;padding:16px 14px}
+.bubble{max-width:82%;padding:8px 12px;border:1px solid var(--line);border-radius:var(--r-3);
+  background:var(--bg);font-size:14.5px;line-height:1.5;font-family:"Geist",sans-serif}
+.bubble.user{align-self:flex-end;color:var(--muted);border-end-end-radius:2px}
+.bot-slot{display:grid;justify-items:start;align-items:start;align-self:flex-start;max-width:82%}
+.bot-slot>*{grid-area:1/1}
+.bot-slot .bubble{max-width:none}
+.bubble.bot{border-end-start-radius:2px;border-color:var(--accent-warm);
+  background:var(--surface);background:color-mix(in oklab,var(--accent-warm) 7%,var(--surface))}
+.chat[data-platform="bale"] .bubble{border-radius:var(--r-3)}
+.chat[data-platform="bale"] .bubble.bot{border-color:var(--line);border-inline-start:2px solid var(--accent-warm);
+  background:var(--surface);background:color-mix(in oklab,var(--accent-warm) 5%,var(--surface))}
+.chat[data-platform="rubika"] .bubble{border-radius:var(--r-1)}
+.chat[data-platform="rubika"] .bubble.user{border-color:var(--accent);color:var(--text)}
+
+.strip{border-block:1px solid var(--line)}
+.strip-inner{display:flex;align-items:center;flex-wrap:wrap;gap:16px 40px;padding-block:28px}
+.platforms{display:flex;flex-wrap:wrap;gap:12px 36px;list-style:none;margin:0;padding:0}
+.platforms li{font-family:"Geist",sans-serif;font-size:clamp(20px,2.4vw,26px);font-weight:500;letter-spacing:-.02em;
+  color:var(--muted);transition:color var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.platforms li:hover{color:var(--accent)}
+@media (hover:hover){.platforms li:hover{transform:translateY(-2px)}}
+.strip-note{margin-inline-start:auto;color:var(--muted);font-size:15px;line-height:1.7}
+.strip-note a,.inline-link{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:4px;transition:text-decoration-color var(--dur) var(--ease)}
+.strip-note a:hover,.inline-link:hover{text-decoration-color:var(--accent-warm)}
+@media (max-width:720px){.strip-note{margin-inline-start:0}}
+
+.section{padding-block:var(--section)}
+.section--ruled{border-block-start:1px solid var(--line)}
+.section h2{font-size:clamp(1.85rem,1.1rem + 2.6vw,2.75rem);margin-block-end:clamp(28px,4vw,48px)}
+
+.bento{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r-3);overflow:hidden}
+.cell{display:flex;flex-direction:column;gap:20px;min-width:0;padding:clamp(20px,3vw,32px);background:var(--bg)}
+.cell header{display:grid;gap:6px}
+.cell h3{font-size:18px;line-height:1.3}
+.cell p{color:var(--muted);font-size:15px;line-height:1.75;max-width:48ch}
+html[lang="en"] .cell p{line-height:1.6}
+.cell .art{margin-block-start:auto;min-width:0}
+.cell pre{border:1px solid var(--line);border-radius:var(--r-2);font-size:12.5px;padding:14px 16px}
+@media (min-width:641px) and (max-width:960px){
+  .bento{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cell--wide{grid-column:1/-1}
+}
+@media (min-width:961px){
+  .bento{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .cell--3{grid-column:span 3}
+  .cell--4{grid-column:span 4}
+  .cell--5{grid-column:span 5}
+  .cell--6{grid-column:span 6}
+  .cell--7{grid-column:span 7}
+}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{font-family:var(--font-mono);font-size:12px;line-height:1;padding:6px 9px;border:1px solid var(--line);
+  border-radius:var(--r-1);color:var(--muted);direction:ltr}
+.badge--strong{color:var(--text);border-color:var(--accent-warm)}
+.big-mono{display:block;width:fit-content;font-family:var(--font-mono);font-size:clamp(34px,4vw,44px);line-height:1;letter-spacing:-.04em;direction:ltr;text-align:start}
+.linklist{list-style:none;margin:0;padding:0}
+.linklist a{display:block;padding:7px 0;border-block-end:1px solid var(--line);color:var(--text);text-decoration:none;font-size:15px;
+  transition:color var(--dur) var(--ease)}
+.linklist a:hover{color:var(--accent)}
+.linklist li:last-child a{border-block-end:0}
+.diagram{direction:ltr;display:block;width:100%;height:auto;max-width:420px}
+.diagram rect{fill:var(--surface);stroke:var(--line)}
+.diagram .on{stroke:var(--accent-warm)}
+.diagram path{fill:none;stroke:var(--muted);stroke-width:1.25}
+.diagram text{fill:var(--text);font:12px var(--font-mono)}
+.diagram .lbl{fill:var(--muted);font-size:11px}
+
+.ex-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;border-block-end:1px solid var(--line);
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.ex-tabs::-webkit-scrollbar{display:none}
+.ex-tabs [role="tab"]{flex:none;min-height:44px;padding:0 14px;margin-block-end:-1px;background:none;border:0;
+  border-block-end:2px solid transparent;color:var(--muted);font:inherit;font-size:15px;font-family:"Geist",var(--font-body);
+  white-space:nowrap;cursor:pointer;transition:color var(--dur) var(--ease)}
+.ex-tabs [role="tab"]:hover{color:var(--text)}
+.ex-tabs [role="tab"][aria-selected="true"]{color:var(--text)}
+.ex-panel{margin-block-start:20px;border:1px solid var(--line);border-radius:var(--r-2);overflow:hidden;background:var(--surface)}
+.ex-panel pre{border:0;font-size:13.5px;padding:20px 22px}
+
+.mig-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(32px,5vw,64px);align-items:start}
+@media (max-width:900px){.mig-grid{grid-template-columns:minmax(0,1fr)}}
+.map-wrap{border:1px solid var(--line);border-radius:var(--r-2);overflow:hidden;background:var(--surface)}
+.map{width:100%;border-collapse:collapse;font-size:14px}
+.map th,.map td{padding:11px 16px;text-align:start;border-block-end:1px solid var(--line);vertical-align:baseline}
+.map th{font-family:var(--font-mono);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--bg)}
+.map tbody tr:last-child td{border-block-end:0}
+.map td+td,.map th+th{border-inline-start:1px solid var(--line)}
+.map code{font-size:13px;white-space:nowrap}
+.notes{list-style:none;margin:0;padding:0}
+.notes li{padding-block:18px;border-block-start:1px solid var(--line)}
+.notes li:first-child{border-block-start:0;padding-block-start:0}
+.notes strong{display:block;margin-block-end:4px;font-weight:600}
+.notes p{color:var(--muted);font-size:15.5px}
+.notes code{font-size:.88em;padding:.1em .4em;border:1px solid var(--line);border-radius:var(--r-1);background:var(--surface)}
+.mig-link{display:inline-block;margin-block-start:8px}
+@media (max-width:640px){
+  .map thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .map,.map tbody,.map tr,.map td{display:block;width:100%}
+  .map tr{padding:12px 16px;border-block-end:1px solid var(--line)}
+  .map tbody tr:last-child{border-block-end:0}
+  .map td{display:flex;direction:ltr;gap:12px;align-items:baseline;padding:3px 0;border:0}
+  .map td+td{border-inline-start:0}
+  .map td::before{content:attr(data-label);flex:0 0 58px;font-family:var(--font-mono);font-size:12px;color:var(--muted);direction:ltr;text-align:start}
+  .map code{white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+}
+
+.site-footer{border-block-start:1px solid var(--line);padding-block:40px}
+.footer-inner{display:flex;align-items:center;flex-wrap:wrap;gap:20px 32px}
+.foot-brand{display:inline-flex;align-items:center;gap:10px;font-family:"Geist",var(--font-body);font-weight:600;font-size:17px}
+.foot-brand img{width:22px;height:22px;display:block}
+.foot-nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+.foot-nav a{color:var(--muted);text-decoration:none;font-size:15px;transition:color var(--dur) var(--ease)}
+.foot-nav a:hover{color:var(--text)}
+.footer-inner .install{margin-inline-start:auto}
+@media (max-width:720px){.footer-inner .install{margin-inline-start:0}}
+
+.nt,.nt *{transition:none!important}
+
+.main a,.foot-nav a{text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:1px;text-underline-offset:6px;
+  transition:color var(--dur) var(--ease),text-decoration-color var(--dur) var(--ease)}
+.main a:hover,.foot-nav a:hover{text-decoration-color:var(--accent-warm)}
+
+.install{transition:border-color var(--dur) var(--ease)}
+.install:focus-within{border-color:var(--accent-warm)}
+@supports selector(:has(*)){.install:focus-within:not(:has(:focus-visible)){border-color:var(--line)}}
+
+.plat{position:relative;display:inline-block;isolation:isolate}
+.plat::before{content:"";position:absolute;inset:-1px -3px;z-index:-1;border-radius:2px;background:var(--accent-warm);opacity:0}
+.plat.out{opacity:0;transition:opacity 140ms var(--ease)}
+.plat.in{animation:platIn 240ms var(--ease) both}
+.plat.flash::before{animation:platFlash 450ms var(--ease) both}
+@keyframes platIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@keyframes platFlash{from{opacity:.22}to{opacity:0}}
+
+.bubble{transition:opacity 240ms var(--ease),transform 240ms var(--ease),border-color var(--dur) var(--ease)}
+.typing{display:inline-flex;gap:4px;align-items:center;justify-self:start;align-self:start;padding:12px 14px;
+  opacity:0;transition:opacity 150ms var(--ease)}
+.typing i{width:5px;height:5px;border-radius:50%;background:var(--accent-warm);opacity:.3}
+.typing i:nth-child(2){animation-delay:120ms}
+.typing i:nth-child(3){animation-delay:240ms}
+.chat[data-step="2"] .typing{opacity:1}
+.chat[data-step="2"] .typing i{animation:dot 600ms var(--ease) both}
+@keyframes dot{0%,100%{opacity:.3}50%{opacity:1}}
+.js .chat .bubble.user{opacity:0;transform:translateY(6px)}
+.js .chat .bubble.bot:not(.typing){opacity:0;transform:translateY(4px)}
+.js .chat[data-step="1"] .bubble.user,.js .chat[data-step="2"] .bubble.user,.js .chat[data-step="3"] .bubble.user{opacity:1;transform:none}
+.js .chat[data-step="3"] .bubble.bot:not(.typing){opacity:1;transform:none}
+
+.js .hero-h1 .ln{opacity:0;transform:translateY(14px);will-change:opacity,transform}
+.js .hero-h1.is-in .ln{opacity:1;transform:none;will-change:auto;transition:opacity 420ms var(--ease),transform 420ms var(--ease)}
+.js .hero-h1.is-in .ln:nth-child(2){transition-delay:80ms}
+.js [data-hero]:not(.is-in){opacity:0;transform:translateY(12px);will-change:opacity,transform}
+.js [data-hero].is-in{opacity:1;transform:none;transition:opacity 400ms var(--ease),transform 400ms var(--ease)}
+
+.js [data-reveal]:not([data-reveal="cell"]):not(.is-in){opacity:0;will-change:opacity,transform}
+.js [data-reveal="head"]:not(.is-in){transform:translateX(calc(var(--dx) * -1))}
+.js [data-reveal="panel"]:not(.is-in){transform:translateY(12px)}
+.js [data-reveal="row"]:not(.is-in){transform:translateY(8px)}
+.js [data-reveal].is-in:not([data-reveal="cell"]){opacity:1;transform:none;
+  transition:opacity 380ms var(--ease) var(--d,0ms),transform 380ms var(--ease) var(--d,0ms)}
+.js .cell:not(.is-in)>*{opacity:0;transform:translateY(12px);will-change:opacity,transform}
+.js .cell.is-in>*{opacity:1;transform:none;transition:opacity 400ms var(--ease) var(--d,0ms),transform 400ms var(--ease) var(--d,0ms)}
+.js .cell.is-in>*:nth-child(2){transition-delay:calc(var(--d,0ms) + 60ms)}
+
+.cell{position:relative;isolation:isolate}
+.cell::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border:1px solid var(--muted);
+  background:var(--bg);background:color-mix(in oklab,var(--accent-warm) 5%,var(--bg));opacity:0;transition:opacity var(--dur) var(--ease)}
+@media (hover:hover){.cell:hover::before{opacity:1}}
+
+.diagram .ahd{stroke-linecap:round;stroke-linejoin:round}
+.diagram .hl{fill:var(--accent-warm);fill-opacity:.1;stroke:var(--accent-warm);stroke-width:1.5;opacity:0;
+  transition:opacity 220ms var(--ease),transform 300ms var(--ease)}
+.diagram .hl.show{opacity:1}
+.diagram.anim .edge{stroke-dasharray:40;stroke-dashoffset:40}
+.diagram.anim .ahd,.diagram.anim .lbl{opacity:0}
+.diagram.anim.is-drawn .edge{stroke-dashoffset:0;transition:stroke-dashoffset 420ms var(--ease)}
+.diagram.anim.is-drawn .ahd,.diagram.anim.is-drawn .lbl{opacity:1;transition:opacity 200ms var(--ease)}
+.diagram.anim.is-drawn .edge.g2{transition-delay:300ms}
+.diagram.anim.is-drawn .ahd.g1,.diagram.anim.is-drawn .lbl.g1{transition-delay:350ms}
+.diagram.anim.is-drawn .ahd.g2,.diagram.anim.is-drawn .lbl.g2{transition-delay:650ms}
+
+.runs{direction:ltr;display:grid;gap:6px;margin-block-start:12px;font-family:var(--font-mono);font-size:12px;line-height:1;color:var(--muted)}
+.run{display:flex;align-items:center;gap:10px}
+.run .lb{flex:0 0 1ch}
+.run .bar{display:flex;gap:3px;flex:1 1 auto;max-width:240px}
+.run .tk{flex:1 1 0;height:6px;border-radius:1px;background:var(--accent-warm)}
+.js .runs .tk{opacity:.22;transition:opacity 150ms var(--ease)}
+.js .runs .tk.on{opacity:1}
+
+.ex-tabs{position:relative}
+.ex-ink{position:absolute;left:0;bottom:0;width:1px;height:2px;background:var(--accent);transform-origin:0 0;
+  transition:transform 320ms var(--ease);pointer-events:none}
+.ex-panel{transition:opacity 150ms var(--ease)}
+.ex-panel.is-out,.ex-panel.is-pre{opacity:0}
+.ex-panel.is-pre{transition:none}
+
+.map code{position:relative}
+.map td:last-child code::after{content:"";position:absolute;inset-inline:0;bottom:-2px;height:2px;background:var(--accent-warm);
+  opacity:0;transform:scaleX(0);transform-origin:0 50%}
+.map tr.is-in td:last-child code::after{
+  animation:sweepIn 350ms var(--ease) calc(var(--d,0ms) + 300ms) both,sweepOut 200ms var(--ease) calc(var(--d,0ms) + 650ms) forwards}
+@keyframes sweepIn{from{opacity:1;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+@keyframes sweepOut{to{opacity:0}}
+.map tbody tr:hover{background:var(--surface);background:color-mix(in oklab,var(--accent-warm) 5%,var(--surface))}
+
+.theming,.theming *,.theming *::before,.theming *::after{
+  transition-property:background-color,color,border-color,fill,stroke,text-decoration-color,opacity,transform!important;
+  transition-duration:200ms!important;transition-timing-function:var(--ease)!important}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js [data-hero],.js .hero-h1 .ln,.js [data-reveal],.js .cell>*,
+  .js .chat .bubble.user,.js .chat .bubble.bot:not(.typing){opacity:1!important;transform:none!important}
+  .diagram.anim .edge{stroke-dashoffset:0!important}
+  .diagram.anim .ahd,.diagram.anim .lbl{opacity:1!important}
+  .js .runs .tk{opacity:1!important}
+}
+</style>
+
+
+<div class="sr-only" id="live" role="status" aria-live="polite"></div>
+
+<header class="site-header" id="siteHeader" data-open="false">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="aioshad">
+      <img src="_static/logo.svg" width="24" height="24" alt="" />
+      <span>aioshad</span>
+    </a>
+
+    <nav class="main" id="mainNav" aria-label="ناوبری اصلی">
+      <a href="document/" data-i18n="nav.docs">مستندات</a>
+      <a href="document/quickstart.html" data-i18n="nav.quickstart">شروع سریع</a>
+      <a href="#features" data-i18n="nav.features">ویژگی‌ها</a>
+      <a href="#examples" data-i18n="nav.examples">مثال‌ها</a>
+      <a class="ext" href="https://github.com/aminmadaniofficial/aioshad/" rel="noopener" target="_blank">GitHub<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 8 8 2M3.5 2H8v4.5"/></svg></a>
+    </nav>
+
+    <div class="actions">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="تغییر تم">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor"/></svg>
+      </button>
+      <button class="lang-btn" id="langBtn" type="button" aria-label="Switch to English" lang="en">EN</button>
+      <a class="btn btn-primary hide-sm" href="document/" data-i18n="nav.docs">مستندات</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="منو">
+        <svg class="i-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+        <svg class="i-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero wrap" id="top" aria-labelledby="hero-title">
+  <div class="hero-text">
+    <h1 class="hero-h1" id="hero-title"><span class="ln" data-i18n="hero.title1">فریم‌ورک مدرن و سریع</span> <span class="ln" data-i18n="hero.title2">پایتون برای شاد.</span></h1>
+    <p class="sub" data-i18n="hero.sub">کاملاً async، با معماری الهام‌گرفته از aiogram ۳، اتصالات مالتی‌پلکس HTTP/2 و رمزنگاری نیتیو AES-256 و RSA-1024.</p>
+
+    <div class="cta">
+      <a class="btn btn-primary" href="document/quickstart.html" data-i18n="cta.primary">شروع سریع</a>
+      <a class="btn btn-ghost" href="document/" data-i18n="cta.secondary">مستندات API</a>
+    </div>
+
+    <div class="install">
+      <span class="prompt" aria-hidden="true">$</span>
+      <code>pip install aioshad-py</code>
+      <button class="copy" type="button" data-copy="pip install aioshad-py" aria-label="کپی">
+        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+        <span class="ok" aria-hidden="true"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copy.done">کپی شد</span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="demo" id="heroDemo">
+    <div class="demo-panel" id="heroPanel">
+      <div class="code-panel">
+        <div class="code-head">
+          <span>main.py</span>
+          <button class="copy" id="heroCopy" type="button" data-copy="from aioshad import Client, F
+from aioshad.filters import IsMe
+from aioshad.types import Message
+
+client = Client(session='my_account')
+
+@client.on_message(IsMe(), F.text == '!ping')
+async def ping_handler(msg: Message):
+    await msg.edit('Pong! aioshad is active.')
+
+client.run()" aria-label="کپی">
+            <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+            <span class="ok" aria-hidden="true"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copy.done">کپی شد</span></span>
+          </button>
+        </div>
+<pre aria-label="main.py"><code><span class="kw">from</span> aioshad <span class="kw">import</span> Client, F
+<span class="kw">from</span> aioshad.filters <span class="kw">import</span> IsMe
+<span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
+
+client = Client(session=<span class="str">&quot;my_account&quot;</span>)
+
+<span class="dec">@client.on_message</span>(IsMe(), F.text == <span class="str">&quot;!ping&quot;</span>)
+<span class="kw">async def</span> <span class="fn">ping_handler</span>(msg: Message):
+    <span class="kw">await</span> msg.edit(<span class="str">&quot;Pong! aioshad is active.&quot;</span>)
+
+client.run()</code></pre>
+      </div>
+
+      <div class="chat" id="chat">
+        <div class="chat-head">
+          <img id="chatLogo" src="_static/logo.svg" alt="" width="20" height="20" />
+          <strong id="chatTitle">Saved Messages</strong>
+          <small>Cloud</small>
+        </div>
+        <div class="chat-body">
+          <div class="bubble user" id="userBubble">!ping</div>
+          <div class="bot-slot">
+            <div class="bubble bot" id="botBubble" style="color: var(--accent); font-weight: 500;">Pong! aioshad is active.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="strip" id="highlights" aria-label="نکات کلیدی">
+  <div class="wrap strip-grid">
+    <div class="strip-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div>
+        <strong data-i18n="strip.h1">اتصال مستقیم به سرورهای لبه شاد</strong>
+        <p data-i18n="strip.p1">ارتباط بومی با شبکه داخلی شاد بدون مرورگر یا پروکسی میانی.</p>
+      </div>
+    </div>
+    <div class="strip-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <div>
+        <strong data-i18n="strip.h2">رمزنگاری معکوس‌شده AES-256</strong>
+        <p data-i18n="strip.p2">پیاده‌سازی نیتیو رمزگذاری، کلیدسازی RSA و پروتکل امنیتی شاد.</p>
+      </div>
+    </div>
+    <div class="strip-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div>
+        <strong data-i18n="strip.h3">پشتیبانی از چندین اکانت</strong>
+        <p data-i18n="strip.p3">مدیریت همزمان ده‌ها اکانت و سلف‌بات در یک حلقه رخداد یکپارچه.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features" aria-labelledby="features-h">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="features-h" data-i18n="feat.heading">ویژگی‌های مهندسی‌شده برای مقیاس‌پذیری</h2>
+      <p class="sub" data-i18n="feat.sub">طراحی‌شده از پایه برای سرعت، قابلیت اطمینان و کدهای سازمان‌یافته.</p>
+    </div>
+
+    <div class="features-grid">
+      <article class="card">
+        <header>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <h3 data-i18n="feat.f1.h">معماری الهام‌گرفته از aiogram ۳</h3>
+        </header>
+        <p data-i18n="feat.f1.p">استفاده از روترها (Routers)، دیسپچر، فیلترهای جادویی F و ساختار ماژولار که توسعه بات‌های بزرگ را تمیز و لذت‌بخش می‌کند.</p>
+      </article>
+
+      <article class="card">
+        <header>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          <h3 data-i18n="feat.f2.h">مدیریت سشن‌های منعطف</h3>
+        </header>
+        <p data-i18n="feat.f2.p">ذخیره‌سازی آسان کلیدها با فایل سشن (JSON)، پایگاه‌داده امن SQLite و حافظه موقت Memory برای تست و استقرار ابری.</p>
+      </article>
+
+      <article class="card">
+        <header>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <h3 data-i18n="feat.f3.h">مکالمات خطی و ماشین وضعیت (FSM)</h3>
+        </header>
+        <p data-i18n="feat.f3.p">ایجاد پرسش‌نامه‌ها و فرم‌های مرحله‌به‌مرحله با کانتکست منیجر گفت‌وگو و ماشین وضعیت کامل برای سناریوهای چندمرحله‌ای.</p>
+      </article>
+
+      <article class="card">
+        <header>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <h3 data-i18n="feat.f4.h">پشتیبانی از ویس چت گروهی</h3>
+        </header>
+        <p data-i18n="feat.f4.p">امکان ایجاد، پیوستن، مدیریت وضعیت میکروفون و کنترل نشست‌های صوتی WebRTC در گروه‌های شاد به صورت خودکار.</p>
+      </article>
+
+      <article class="card">
+        <header>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <h3 data-i18n="feat.f5.h">آپلود و دانلود سریع مدیا</h3>
+        </header>
+        <p data-i18n="feat.f5.p">انتقال چانک‌شده و استریم فایل‌ها، تصاویر، اسناد و ویس‌ها با محاسبه اتوماتیک تامبنیل و هش‌های رمزنگاری شده.</p>
+      </article>
+
+      <article class="card">
+        <header>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          <h3 data-i18n="feat.f6.h">ابزار خط فرمان (CLI) اختصاصی</h3>
+        </header>
+        <p data-i18n="feat.f6.p">راه‌اندازی فوری پروژه‌ها با aioshad init، لاگین مستقیم در ترمینال و مشاهده اطلاعات سشن بدون نیاز به نوشتن کد اولیه.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--ruled" id="examples" aria-labelledby="ex-h">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="ex-h" data-i18n="ex.heading">کدهای تمیز و الگوهای آماده</h2>
+      <p class="sub" data-i18n="ex.sub">نمونه‌هایی واقعی از نحوه پیاده‌سازی قابلیت‌ها در aioshad.</p>
+    </div>
+
+    <div class="tabs" role="tablist" id="exTabs">
+      <button type="button" role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1">روترها و فیلترها</button>
+      <button type="button" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2">مکالمه مرحله‌به‌مرحله</button>
+      <button type="button" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3">چند اکانت همزمان</button>
+      <button type="button" role="tab" id="tab-4" aria-selected="false" aria-controls="panel-4">سشن SQLite</button>
+    </div>
+
+    <div class="panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+<pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Router, F
+<span class="kw">from</span> aioshad.filters <span class="kw">import</span> Command, CommandObject
+<span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
+
+router = Router()
+
+<span class="dec">@router.message</span>(Command(<span class="str">&quot;calc&quot;</span>))
+<span class="kw">async def</span> <span class="fn">calc_handler</span>(msg: Message, command: CommandObject):
+    expression = command.args
+    <span class="kw">await</span> msg.reply(f<span class="str">&quot;Result: {eval(expression)}&quot;</span>)
+
+<span class="dec">@router.message</span>(F.text.startswith(<span class="str">&quot;info&quot;</span>))
+<span class="kw">async def</span> <span class="fn">info_handler</span>(msg: Message):
+    <span class="kw">await</span> msg.reply(f<span class="str">&quot;Chat ID: {msg.chat_id}
+Author: {msg.author_guid}&quot;</span>)</code></pre>
+    </div>
+
+    <div class="panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+<pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Client, F
+<span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
+
+client = Client(session=<span class="str">&quot;bot&quot;</span>)
+
+<span class="dec">@client.on_message</span>(F.text == <span class="str">&quot;!survey&quot;</span>)
+<span class="kw">async def</span> <span class="fn">survey_handler</span>(msg: Message):
+    <span class="kw">async with</span> client.conversation(chat_id=msg.object_guid, timeout=60) <span class="kw">as</span> conv:
+        <span class="kw">await</span> conv.send(<span class="str">&quot;نام شما چیست؟&quot;</span>)
+        name_msg = <span class="kw">await</span> conv.get_response()
+        
+        <span class="kw">await</span> conv.send(f<span class="str">&quot;خوشبختم {name_msg.text}! چند سال دارید؟&quot;</span>)
+        age_msg = <span class="kw">await</span> conv.get_response()
+        
+        <span class="kw">await</span> conv.send(f<span class="str">&quot;ثبت شد: {name_msg.text} ({age_msg.text} سال)&quot;</span>)</code></pre>
+    </div>
+
+    <div class="panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+<pre><code><span class="kw">import</span> asyncio
+<span class="kw">from</span> aioshad <span class="kw">import</span> Client, ClientManager, F
+<span class="kw">from</span> aioshad.types <span class="kw">import</span> Message
+
+manager = ClientManager()
+
+acc1 = Client(session=<span class="str">&quot;support_1&quot;</span>)
+acc2 = Client(session=<span class="str">&quot;support_2&quot;</span>)
+
+<span class="dec">@acc1.on_message</span>(F.text == <span class="str">&quot;ping&quot;</span>)
+<span class="kw">async def</span> <span class="fn">h1</span>(msg: Message):
+    <span class="kw">await</span> msg.reply(<span class="str">&quot;Bot 1 online&quot;</span>)
+
+manager.add_client(acc1)
+manager.add_client(acc2)
+
+<span class="kw">if</span> __name__ == <span class="str">&quot;__main__&quot;</span>:
+    asyncio.run(manager.start_all())</code></pre>
+    </div>
+
+    <div class="panel" id="panel-4" role="tabpanel" aria-labelledby="tab-4" hidden>
+<pre><code><span class="kw">from</span> aioshad <span class="kw">import</span> Client
+<span class="kw">from</span> aioshad.session <span class="kw">import</span> SQLiteSessionStorage
+
+<span class="comment"># ذخیره‌سازی داده‌های چندین اکانت در یک دیتابیس SQLite</span>
+storage = SQLiteSessionStorage(database_path=<span class="str">&quot;sessions.sqlite3&quot;</span>, session_name=<span class="str">&quot;main_account&quot;</span>)
+client = Client(session=storage)
+
+client.run()</code></pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot-inner">
+    <div class="foot-brand">
+      <img src="_static/logo.svg" width="20" height="20" alt="" />
+      <span>aioshad</span>
+    </div>
+
+    <nav class="foot-nav" aria-label="پیوندها">
+      <a href="document/" data-i18n="nav.docs">مستندات</a>
+      <a href="document/quickstart.html" data-i18n="nav.quickstart">شروع سریع</a>
+      <a href="https://github.com/aminmadaniofficial/aioshad/" rel="noopener" target="_blank">GitHub</a>
+      <a href="https://pypi.org/project/aioshad-py/" rel="noopener" target="_blank">PyPI</a>
+    </nav>
+
+    <div class="foot-copy">
+      <span>MIT License &bull; Mohammadamin Madani</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function qs(sel, ctx){ return (ctx || document).querySelector(sel); }
+  function qsa(sel, ctx){ return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+  var root = document.documentElement;
+
+  // Theme Toggle
+  var themeBtn = qs('#themeBtn');
+  if(themeBtn){
+    themeBtn.addEventListener('click', function(){
+      var cur = root.dataset.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try{ localStorage.setItem('aioshad.theme', next); }catch(e){}
+    });
+  }
+
+  // Mobile Menu
+  var menuBtn = qs('#menuBtn'), siteHeader = qs('#siteHeader');
+  if(menuBtn && siteHeader){
+    menuBtn.addEventListener('click', function(){
+      var open = siteHeader.getAttribute('data-open') === 'true';
+      siteHeader.setAttribute('data-open', !open);
+      menuBtn.setAttribute('aria-expanded', !open);
+    });
+  }
+
+  // Copy Buttons
+  qsa('button.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy') || '';
+      if(!text) return;
+      navigator.clipboard.writeText(text).then(function(){
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.classList.remove('copied'); }, 2000);
+      });
+    });
+  });
+
+  // Tabs
+  var tabButtons = qsa('#exTabs button[role="tab"]');
+  var panels = qsa('.panel[role="tabpanel"]');
+  tabButtons.forEach(function(btn, idx){
+    btn.addEventListener('click', function(){
+      tabButtons.forEach(function(b){ b.setAttribute('aria-selected', 'false'); });
+      panels.forEach(function(p){ p.hidden = true; });
+      btn.setAttribute('aria-selected', 'true');
+      if(panels[idx]) panels[idx].hidden = false;
+    });
+  });
+
+  // Language Switcher
+  var dict = {
+    fa: {
+      'nav.docs': 'مستندات',
+      'nav.quickstart': 'شروع سریع',
+      'nav.features': 'ویژگی‌ها',
+      'nav.examples': 'مثال‌ها',
+      'hero.title1': 'فریم‌ورک مدرن و سریع',
+      'hero.title2': 'پایتون برای شاد.',
+      'hero.sub': 'کاملاً async، با معماری الهام‌گرفته از aiogram ۳، اتصالات مالتی‌پلکس HTTP/2 و رمزنگاری نیتیو AES-256 و RSA-1024.',
+      'cta.primary': 'شروع سریع',
+      'cta.secondary': 'مستندات API',
+      'copy.done': 'کپی شد',
+      'strip.h1': 'اتصال مستقیم به سرورهای لبه شاد',
+      'strip.p1': 'ارتباط بومی با شبکه داخلی شاد بدون مرورگر یا پروکسی میانی.',
+      'strip.h2': 'رمزنگاری معکوس‌شده AES-256',
+      'strip.p2': 'پیاده‌سازی نیتیو رمزگذاری، کلیدسازی RSA و پروتکل امنیتی شاد.',
+      'strip.h3': 'پشتیبانی از چندین اکانت',
+      'strip.p3': 'مدیریت همزمان ده‌ها اکانت و سلف‌بات در یک حلقه رخداد یکپارچه.',
+      'feat.heading': 'ویژگی‌های مهندسی‌شده برای مقیاس‌پذیری',
+      'feat.sub': 'طراحی‌شده از پایه برای سرعت، قابلیت اطمینان و کدهای سازمان‌یافته.',
+      'feat.f1.h': 'معماری الهام‌گرفته از aiogram ۳',
+      'feat.f1.p': 'استفاده از روترها (Routers)، دیسپچر، فیلترهای جادویی F و ساختار ماژولار که توسعه بات‌های بزرگ را تمیز و لذت‌بخش می‌کند.',
+      'feat.f2.h': 'مدیریت سشن‌های منعطف',
+      'feat.f2.p': 'ذخیره‌سازی آسان کلیدها با فایل سشن (JSON)، پایگاه‌داده امن SQLite و حافظه موقت Memory برای تست و استقرار ابری.',
+      'feat.f3.h': 'مکالمات خطی و ماشین وضعیت (FSM)',
+      'feat.f3.p': 'ایجاد پرسش‌نامه‌ها و فرم‌های مرحله‌به‌مرحله با کانتکست منیجر گفت‌وگو و ماشین وضعیت کامل برای سناریوهای چندمرحله‌ای.',
+      'feat.f4.h': 'پشتیبانی از ویس چت گروهی',
+      'feat.f4.p': 'امکان ایجاد، پیوستن، مدیریت وضعیت میکروفون و کنترل نشست‌های صوتی WebRTC در گروه‌های شاد به صورت خودکار.',
+      'feat.f5.h': 'آپلود و دانلود سریع مدیا',
+      'feat.f5.p': 'انتقال چانک‌شده و استریم فایل‌ها، تصاویر، اسناد و ویس‌ها با محاسبه اتوماتیک تامبنیل و هش‌های رمزنگاری شده.',
+      'feat.f6.h': 'ابزار خط فرمان (CLI) اختصاصی',
+      'feat.f6.p': 'راه‌اندازی فوری پروژه‌ها با aioshad init، لاگین مستقیم در ترمینال و مشاهده اطلاعات سشن بدون نیاز به نوشتن کد اولیه.',
+      'ex.heading': 'کدهای تمیز و الگوهای آماده',
+      'ex.sub': 'نمونه‌هایی واقعی از نحوه پیاده‌سازی قابلیت‌ها در aioshad.'
+    },
+    en: {
+      'nav.docs': 'Docs',
+      'nav.quickstart': 'Quickstart',
+      'nav.features': 'Features',
+      'nav.examples': 'Examples',
+      'hero.title1': 'Blazingly fast & modern',
+      'hero.title2': 'Python framework for Shad.',
+      'hero.sub': 'Fully asynchronous, aiogram 3-inspired design, HTTP/2 edge multiplexing, and reverse-engineered AES-256 and RSA-1024 encryption.',
+      'cta.primary': 'Get Started',
+      'cta.secondary': 'API Reference',
+      'copy.done': 'Copied',
+      'strip.h1': 'Direct Edge Gateways',
+      'strip.p1': 'Native connection to domestic Shad clusters with zero headless browsers.',
+      'strip.h2': 'Reverse-Engineered AES-256',
+      'strip.p2': 'Native implementation of encryption, RSA key generation, and protocol handshakes.',
+      'strip.h3': 'Multi-Account Concurrency',
+      'strip.p3': 'Manage dozens of accounts and self-bots simultaneously in a single event loop.',
+      'feat.heading': 'Engineered for Scale and Speed',
+      'feat.sub': 'Built from the ground up for high reliability, clean architecture, and rapid deployment.',
+      'feat.f1.h': 'aiogram 3 Inspired Architecture',
+      'feat.f1.p': 'Modular Routers, nested Dispatchers, Magic Filter F expressions, and type-safe payloads.',
+      'feat.f2.h': 'Flexible Session Storage',
+      'feat.f2.p': 'FileSessionStorage, ACID SQLiteSessionStorage, and MemorySessionStorage for testing.',
+      'feat.f3.h': 'Conversations & FSM',
+      'feat.f3.p': 'Linear interactive multi-step dialogues and robust Finite State Machine workflows.',
+      'feat.f4.h': 'WebRTC Group Voice Chat',
+      'feat.f4.p': 'Automate group voice room creation, participation, and speaker audio status control.',
+      'feat.f5.h': 'Media Upload & Streaming',
+      'feat.f5.p': 'Chunked streaming for photos, documents, and voice messages with auto thumbnail extraction.',
+      'feat.f6.h': 'Dedicated CLI Tools',
+      'feat.f6.p': 'Instant project scaffolding via aioshad init, interactive terminal login, and key inspection.',
+      'ex.heading': 'Clean Code & Ready Patterns',
+      'ex.sub': 'Real-world examples demonstrating how to build with aioshad.'
+    }
+  };
+
+  var langBtn = qs('#langBtn');
+  function setLang(l){
+    root.lang = l;
+    root.dir = l === 'fa' ? 'rtl' : 'ltr';
+    if(langBtn){
+      langBtn.textContent = l === 'fa' ? 'EN' : 'FA';
+      langBtn.setAttribute('aria-label', l === 'fa' ? 'Switch to English' : 'تغییر به فارسی');
+    }
+    qsa('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if(dict[l] && dict[l][k]){
+        el.textContent = dict[l][k];
+      }
+    });
+    try{ localStorage.setItem('aioshad.lang', l); }catch(e){}
+  }
+
+  if(langBtn){
+    langBtn.addEventListener('click', function(){
+      setLang(root.lang === 'fa' ? 'en' : 'fa');
+    });
+    if(root.lang === 'en') setLang('en');
+  }
+
+})();
+</script>
+</body>
+</html>
