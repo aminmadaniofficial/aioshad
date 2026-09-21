@@ -1,499 +1,578 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>aioshad-py — Next-Gen Async Framework for Shad Messenger</title>
-  <meta name="description" content="Modern, fast, fully asynchronous Python framework & self-bot library for Shad Messenger built with HTTP/2, native cryptography and aiogram-inspired dispatcher.">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>aioshad — Next-Gen Async Framework for Shad Messenger</title>
+  <meta name="description" content="High-performance async Python framework & self-bot library for Shad Messenger built on HTTP/2 multiplexing, native cryptography, and aiogram 3 style dispatcher." />
+  <link rel="icon" href="logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Ambient Glow & Background Particles -->
-  <div class="ambient-glow">
-    <div class="ambient-orb-1"></div>
-    <div class="ambient-orb-2"></div>
-    <div class="cyber-grid-overlay"></div>
-  </div>
-  <canvas id="particle-canvas"></canvas>
-
-  <!-- Sticky Site Header -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="#top" class="brand-area">
-        <img src="logo.svg" alt="aioshad Logo" class="brand-logo">
-        <span class="brand-name">aioshad</span>
-        <span class="brand-badge">v0.1.0</span>
+  <!-- Site Header -->
+  <header class="site-header" id="siteHeader" data-open="false">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">
+        <img src="logo.svg" alt="aioshad logo" width="22" height="22" />
+        <span>aioshad</span>
       </a>
 
-      <nav class="nav-links">
-        <a href="#docs" class="nav-link" data-i18n="navDocs">Docs</a>
-        <a href="#features" class="nav-link" data-i18n="navFeatures">Features</a>
-        <a href="#examples" class="nav-link" data-i18n="navExamples">Examples</a>
-        <a href="https://pypi.org/project/aioshad-py/" target="_blank" rel="noopener" class="nav-link">PyPI</a>
-        <a href="https://github.com/aminmadaniofficial/aioshad" target="_blank" rel="noopener" class="nav-link" data-i18n="navGithub">GitHub</a>
+      <nav class="main-nav" id="mainNav" aria-label="Main Navigation">
+        <a href="#features" data-i18n="navFeatures">Features</a>
+        <a href="#examples" data-i18n="navExamples">Examples</a>
+        <a href="#comparison" data-i18n="navCompare">Comparison</a>
+        <a class="ext" href="https://pypi.org/project/aioshad-py/" rel="noopener" target="_blank">PyPI<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 8 8 2M3.5 2H8v4.5"/></svg></a>
+        <a class="ext" href="https://github.com/aminmadaniofficial/aioshad" rel="noopener" target="_blank">GitHub<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 8 8 2M3.5 2H8v4.5"/></svg></a>
       </nav>
 
       <div class="header-actions">
-        <button id="themeToggle" class="icon-button" title="Toggle Theme">☀️</button>
-        <button id="langToggle" class="icon-button btn-lang" title="Switch Language">فارسی</button>
-        <button id="mobileToggle" class="icon-button mobile-toggle" title="Menu">☰</button>
-        <a href="#docs" class="btn-cta" data-i18n="btnGetStarted">Get Started</a>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"/>
+            <path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">فا</button>
+
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-label="Toggle menu">
+          <svg class="i-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+          <svg class="i-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
       </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-section" id="top">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <div class="hero-badge-wrap">
-          <span class="pulse-dot"></span>
-          <span class="hero-badge-text" data-i18n="badgeStatus">v0.1.0 • High-Throughput Async Framework</span>
+  <section class="hero wrap" id="top">
+    <div class="hero-text">
+      <h1>
+        <span class="ln" data-i18n="heroL1">Modern AsyncIO</span>
+        <span class="ln" data-i18n="heroL2">for Shad Messenger.</span>
+      </h1>
+
+      <p class="sub" data-i18n="heroSub">
+        High-throughput self-bot & automation framework built on HTTP/2 multiplexing, native cryptography, and aiogram-inspired dispatcher architecture.
+      </p>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="#examples" data-i18n="btnDocs">Read Documentation</a>
+        <a class="btn btn-ghost" href="https://github.com/aminmadaniofficial/aioshad" target="_blank" rel="noopener" data-i18n="btnGithub">View on GitHub</a>
+      </div>
+
+      <div class="install">
+        <span class="prompt">$</span>
+        <code>pip install aioshad-py</code>
+        <button class="copy" type="button" aria-label="Copy install command" data-copy="pip install aioshad-py">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok" aria-hidden="true"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hero Interactive Code Demo Widget -->
+    <div class="demo">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-quick" aria-controls="panel-quick" aria-selected="true" type="button">Quickstart</button>
+        <button role="tab" id="tab-routers" aria-controls="panel-routers" aria-selected="false" type="button">Routers</button>
+        <button role="tab" id="tab-conv" aria-controls="panel-conv" aria-selected="false" type="button">Conversation</button>
+      </div>
+
+      <!-- Quickstart Code Panel -->
+      <div class="code-panel" id="panel-quick" role="tabpanel" aria-labelledby="tab-quick">
+        <div class="code-head">
+          <span>01_quickstart.py</span>
+          <button class="copy" type="button" aria-label="Copy code">
+            <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+            <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+          </button>
         </div>
+        <pre><code><span class="t-kw">import</span> asyncio
+<span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client, F
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> IsMe
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
 
-        <h1 class="hero-title">
-          <span data-i18n="heroTitlePrefix">Next-Generation</span><br>
-          <span class="text-gradient" data-i18n="heroTitleHighlight">Self-Bot Framework</span><br>
-          <span data-i18n="heroTitleSuffix">for Shad Messenger</span>
-        </h1>
+client = Client(session=<span class="t-str">"my_account"</span>)
 
-        <p class="hero-desc" data-i18n="heroDesc">
-          Modern, fully asynchronous Python framework built on HTTP/2 multiplexing, native cryptography, and an Aiogram-inspired dispatcher architecture.
-        </p>
+<span class="t-kw">@client.on_message</span>(F.text.startswith(<span class="t-str">"echo "</span>))
+<span class="t-kw">async def</span> <span class="t-cls">echo_handler</span>(msg: Message):
+    <span class="t-kw">await</span> msg.reply(msg.text[<span class="t-num">5</span>:].strip())
 
-        <div class="hero-actions">
-          <div class="install-pill">
-            <span style="color: var(--accent-cyan);">$</span>
-            <span class="install-cmd">pip install aioshad-py</span>
-            <button class="copy-btn" data-copy="pip install aioshad-py">Copy</button>
-          </div>
-          <a href="#docs-quickstart" class="btn-cta" data-i18n="btnQuickstart">Quickstart Guide</a>
+<span class="t-kw">@client.on_message</span>(IsMe(), F.text == <span class="t-str">"!ping"</span>)
+<span class="t-kw">async def</span> <span class="t-cls">ping_handler</span>(msg: Message):
+    <span class="t-kw">await</span> msg.edit(<span class="t-str">"Pong! aioshad is active."</span>)
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    client.run()</code></pre>
+      </div>
+
+      <!-- Routers Code Panel -->
+      <div class="code-panel" id="panel-routers" role="tabpanel" aria-labelledby="tab-routers" hidden>
+        <div class="code-head">
+          <span>02_commands_and_routers.py</span>
+          <button class="copy" type="button" aria-label="Copy code">
+            <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+            <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+          </button>
         </div>
+        <pre><code><span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client, Dispatcher, Router
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> Command, CommandObject, IsGroup
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
 
-        <div class="stats-row">
-          <div class="stat-item">
-            <h4>HTTP/2</h4>
-            <p>Multiplexed Edge Conns</p>
-          </div>
-          <div class="stat-item">
-            <h4>AES-256</h4>
-            <p>Native CBC & RSA-1024</p>
-          </div>
-          <div class="stat-item">
-            <h4>100%</h4>
-            <p>AsyncIO Native</p>
+router = Router(name=<span class="t-str">"admin"</span>)
+
+<span class="t-kw">@router.message</span>(Command(<span class="t-str">"start"</span>, prefix=<span class="t-str">"/!."</span>))
+<span class="t-kw">async def</span> <span class="t-cls">handle_start</span>(msg: Message, command: CommandObject):
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Command: {command.command}"</span>)
+
+<span class="t-kw">@router.message</span>(IsGroup(), Command(<span class="t-str">"info"</span>))
+<span class="t-kw">async def</span> <span class="t-cls">handle_info</span>(msg: Message):
+    chat = <span class="t-kw">await</span> msg.get_chat()
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Group: {chat.title}"</span>)
+
+dp = Dispatcher()
+dp.include_router(router)
+client = Client(session=<span class="t-str">"my_account"</span>, dispatcher=dp)</code></pre>
+      </div>
+
+      <!-- Conversation Code Panel -->
+      <div class="code-panel" id="panel-conv" role="tabpanel" aria-labelledby="tab-conv" hidden>
+        <div class="code-head">
+          <span>03_fsm_conversation.py</span>
+          <button class="copy" type="button" aria-label="Copy code">
+            <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+            <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+          </button>
+        </div>
+        <pre><code><span class="t-kw">@client.on_message</span>(Command(<span class="t-str">"survey"</span>))
+<span class="t-kw">async def</span> <span class="t-cls">survey_handler</span>(msg: Message):
+    <span class="t-kw">async with</span> client.conversation(msg.chat_guid, timeout=<span class="t-num">60</span>) <span class="t-kw">as</span> conv:
+        <span class="t-kw">await</span> conv.send_message(<span class="t-str">"What is your name?"</span>)
+        name_msg = <span class="t-kw">await</span> conv.get_response()
+
+        <span class="t-kw">await</span> conv.send_message(f<span class="t-str">"Welcome {name_msg.text}! How old are you?"</span>)
+        age_msg = <span class="t-kw">await</span> conv.get_response()
+
+        <span class="t-kw">await</span> conv.send_message(f<span class="t-str">"Complete: {name_msg.text} ({age_msg.text})"</span>)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Strip -->
+  <section class="strip" id="platforms">
+    <div class="wrap strip-inner">
+      <ul class="platforms">
+        <li>HTTP/2 Multiplexing</li>
+        <li>AES-256-CBC</li>
+        <li>RSA-1024 OAEP</li>
+        <li>Aiogram 3 Style</li>
+        <li>WebRTC Voice Chat</li>
+      </ul>
+      <div class="strip-note">
+        <span data-i18n="stripTitle">Native Shad Protocols</span> &middot; <a href="https://pypi.org/project/aioshad-py/" target="_blank" rel="noopener">v0.1.0 on PyPI</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Grid Section -->
+  <section class="section wrap" id="features">
+    <h2>Features</h2>
+
+    <div class="bento">
+      <div class="cell cell--8">
+        <header>
+          <span class="badge badge--strong">Transport</span>
+          <h3 data-i18n="bento1Title">Multiplexed Edge Conns</h3>
+          <p data-i18n="bento1Desc">Persistent HTTP/2 streams across *.iranlms.ir gateways with zero per-request handshake overhead.</p>
+        </header>
+        <div class="art">
+          <span class="big-mono">~18ms latency</span>
+          <div class="badges" style="margin-top: 10px;">
+            <span class="badge">HTTP/2</span>
+            <span class="badge">Zero Handshake Drop</span>
+            <span class="badge">Domestic Gateway Pool</span>
           </div>
         </div>
       </div>
 
-      <!-- Hero Interactive Code Sandbox Widget -->
-      <div class="code-sandbox-card">
-        <div class="sandbox-header">
-          <div class="window-dots">
-            <span class="dot-red"></span>
-            <span class="dot-yellow"></span>
-            <span class="dot-green"></span>
-          </div>
-          <div class="sandbox-tabs">
-            <button class="sandbox-tab active" data-tab="quickstart">Quickstart</button>
-            <button class="sandbox-tab" data-tab="routers">Routers</button>
-            <button class="sandbox-tab" data-tab="conversation">Conversation</button>
-            <button class="sandbox-tab" data-tab="media">Media</button>
-            <button class="sandbox-tab" data-tab="voicechat">Voice Chat</button>
+      <div class="cell cell--4">
+        <header>
+          <span class="badge badge--strong">Security</span>
+          <h3 data-i18n="bento2Title">Native Cryptography</h3>
+          <p data-i18n="bento2Desc">AES-256-CBC, PKCS7 padding, RSA-1024 OAEP SHA1 decryption, and temporary handshake sessions.</p>
+        </header>
+        <div class="art">
+          <div class="badges">
+            <span class="badge">AES-256-CBC</span>
+            <span class="badge">PKCS7</span>
+            <span class="badge">RSA-1024</span>
+            <span class="badge">OAEP SHA1</span>
           </div>
         </div>
-        <div class="sandbox-content">
-          <button class="code-copy-floating">Copy</button>
-          <pre><code id="sandbox-code"></code></pre>
+      </div>
+
+      <div class="cell cell--4">
+        <header>
+          <span class="badge badge--strong">Routing</span>
+          <h3 data-i18n="bento3Title">Aiogram-Style Dispatcher</h3>
+          <p data-i18n="bento3Desc">Intuitive @client.on_message decorators, modular Router trees, and magic filter F expressions.</p>
+        </header>
+        <div class="art">
+          <pre><code><span class="t-kw">@dp.message</span>(F.text == <span class="t-str">"!status"</span>)
+<span class="t-kw">async def</span> <span class="t-cls">check</span>(msg, client):
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"OK: {client.me}"</span>)</code></pre>
+        </div>
+      </div>
+
+      <div class="cell cell--4">
+        <header>
+          <span class="badge badge--strong">State Machine</span>
+          <h3 data-i18n="bento4Title">Interactive Conversations</h3>
+          <p data-i18n="bento4Desc">Linear async with client.conversation(...) context manager for step-by-step forms and surveys.</p>
+        </header>
+        <div class="art">
+          <div class="badges">
+            <span class="badge">Linear Async Wait</span>
+            <span class="badge">Timeout Handling</span>
+            <span class="badge">Memory / SQLite FSM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell cell--4">
+        <header>
+          <span class="badge badge--strong">WebRTC</span>
+          <h3 data-i18n="bento5Title">WebRTC Voice Chat</h3>
+          <p data-i18n="bento5Desc">Create, join, speak, mute, and list live participants in group or channel voice chats natively.</p>
+        </header>
+        <div class="art">
+          <div class="badges">
+            <span class="badge">create_voice_chat</span>
+            <span class="badge">join_voice_chat</span>
+            <span class="badge">get_participants</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell cell--12">
+        <header>
+          <span class="badge badge--strong">Scalability</span>
+          <h3 data-i18n="bento6Title">Multi-Account Manager</h3>
+          <p data-i18n="bento6Desc">Concurrently orchestrate dozens of self-bot accounts on a single asyncio event loop.</p>
+        </header>
+        <div class="art">
+          <pre><code>manager = ClientManager(dispatcher=dp)
+manager.add_client(session=<span class="t-str">"acc1"</span>, phone_number=<span class="t-str">"09121111111"</span>)
+manager.add_client(session=<span class="t-str">"acc2"</span>, phone_number=<span class="t-str">"09122222222"</span>)
+manager.run_all()</code></pre>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Highlights & Features Section -->
-  <section class="features-section" id="features">
-    <div class="section-header">
-      <span class="section-tag">High Performance</span>
-      <h2 class="section-title">Engineered for Extreme Speed & Reliability</h2>
-      <p class="section-desc">Everything you need to build enterprise self-bots, interactive assistants, and channel managers on Shad Messenger.</p>
+  <!-- Examples Section -->
+  <section class="section section--ruled wrap" id="examples">
+    <h2>Examples</h2>
+
+    <div class="ex-tabs" role="tablist">
+      <button role="tab" id="ex-tab-1" aria-controls="ex-p-1" aria-selected="true" type="button">01 Quickstart</button>
+      <button role="tab" id="ex-tab-2" aria-controls="ex-p-2" aria-selected="false" type="button">02 Commands &amp; Routers</button>
+      <button role="tab" id="ex-tab-3" aria-controls="ex-p-3" aria-selected="false" type="button">03 FSM Conversation</button>
+      <button role="tab" id="ex-tab-4" aria-controls="ex-p-4" aria-selected="false" type="button">04 Send Media</button>
+      <button role="tab" id="ex-tab-5" aria-controls="ex-p-5" aria-selected="false" type="button">05 Voice Chat</button>
+      <button role="tab" id="ex-tab-6" aria-controls="ex-p-6" aria-selected="false" type="button">06 Anti-Spam Moderator</button>
+      <button role="tab" id="ex-tab-7" aria-controls="ex-p-7" aria-selected="false" type="button">07 Multi-Account</button>
     </div>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon-box">⚡</div>
-        <h3>HTTP/2 & AsyncIO Native</h3>
-        <p>Harness persistent HTTP/2 connections with zero handshake penalty, delivering lightning-fast message transmission and minimal CPU overhead.</p>
+    <!-- Example Panel 1 -->
+    <div class="ex-panel" id="ex-p-1" role="tabpanel" aria-labelledby="ex-tab-1">
+      <div class="code-head">
+        <span>examples/01_quickstart.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
       </div>
+      <pre><code><span class="t-kw">import</span> asyncio
+<span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client, F
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> IsMe
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
 
-      <div class="feature-card">
-        <div class="feature-icon-box">🔐</div>
-        <h3>End-to-End Cryptography</h3>
-        <p>Full implementation of Shad's security layer: AES-256-CBC with PKCS7 padding, RSA-1024 OAEP SHA1 key decryptions, and temporary handshake sessions.</p>
-      </div>
+client = Client(session=<span class="t-str">"my_account"</span>)
 
-      <div class="feature-card">
-        <div class="feature-icon-box">🔄</div>
-        <h3>Multi-Host Edge Failover</h3>
-        <p>Automatic pooling and dynamic health checks across Shad edge gateways (<code>*.iranlms.ir</code>), ensuring unbroken 24/7 uptime.</p>
-      </div>
+<span class="t-kw">@client.on_message</span>(F.text.startswith(<span class="t-str">"echo "</span>))
+<span class="t-kw">async def</span> <span class="t-cls">echo_handler</span>(msg: Message):
+    text_to_repeat = msg.text[<span class="t-num">5</span>:].strip()
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Echo: {text_to_repeat}"</span>)
 
-      <div class="feature-card">
-        <div class="feature-icon-box">🎯</div>
-        <h3>Aiogram-Inspired Dispatcher</h3>
-        <p>Clean <code>@client.on_message</code> decorators, modular <code>Router</code> trees, and expressive <code>F</code> (MagicFilter) logic for readable bot code.</p>
-      </div>
+<span class="t-kw">@client.on_message</span>(IsMe(), F.text == <span class="t-str">"!ping"</span>)
+<span class="t-kw">async def</span> <span class="t-cls">ping_handler</span>(msg: Message):
+    <span class="t-kw">await</span> msg.edit(<span class="t-str">"Pong from aioshad selfbot!"</span>)
 
-      <div class="feature-card">
-        <div class="feature-icon-box">💬</div>
-        <h3>Interactive Conversations</h3>
-        <p>Built-in <code>async with client.conversation(...)</code> manager simplifies complex multi-step registration forms and interactive surveys.</p>
-      </div>
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    client.run()</code></pre>
+    </div>
 
-      <div class="feature-card">
-        <div class="feature-icon-box">🎙️</div>
-        <h3>WebRTC Voice Chat</h3>
-        <p>Create, join, speak, mute, and inspect live participants in channel and group voice chats with dedicated asynchronous primitives.</p>
+    <!-- Example Panel 2 -->
+    <div class="ex-panel" id="ex-p-2" role="tabpanel" aria-labelledby="ex-tab-2" hidden>
+      <div class="code-head">
+        <span>examples/02_commands_and_routers.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
       </div>
+      <pre><code><span class="t-kw">import</span> asyncio
+<span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client, Dispatcher, Router
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> Command, CommandObject, IsGroup
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
 
-      <div class="feature-card">
-        <div class="feature-icon-box">📸</div>
-        <h3>Rich Media & Auto-Thumbs</h3>
-        <p>Upload high-res photos with automatic client-side thumbnail generation, send voice notes, video notes, and documents seamlessly.</p>
-      </div>
+user_router = Router(name=<span class="t-str">"user_router"</span>)
+group_router = Router(name=<span class="t-str">"group_router"</span>)
 
-      <div class="feature-card">
-        <div class="feature-icon-box">👥</div>
-        <h3>Multi-Account Manager</h3>
-        <p>Concurrently orchestrate dozens of accounts on a single asyncio event loop with <code>ClientManager</code> and unified dispatchers.</p>
-      </div>
+<span class="t-kw">@user_router.message</span>(Command(<span class="t-str">"start"</span>, <span class="t-str">"help"</span>, prefix=<span class="t-str">"/!."</span>))
+<span class="t-kw">async def</span> <span class="t-cls">handle_start</span>(msg: Message, command: CommandObject):
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Command: {command.command}, Args: {command.args}"</span>)
 
-      <div class="feature-card">
-        <div class="feature-icon-box">🛠️</div>
-        <h3>Developer CLI Tooling</h3>
-        <p>Instantly scaffold projects with <code>aioshad init</code>, authenticate sessions via <code>aioshad login</code>, and inspect session tokens via <code>aioshad session-info</code>.</p>
+<span class="t-kw">@group_router.message</span>(IsGroup(), Command(<span class="t-str">"info"</span>, prefix=<span class="t-str">"!"</span>))
+<span class="t-kw">async def</span> <span class="t-cls">handle_group_info</span>(msg: Message):
+    chat = <span class="t-kw">await</span> msg.get_chat()
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Group: {chat.title} ({chat.members_count} members)"</span>)
+
+<span class="t-kw">async def</span> <span class="t-cls">main</span>():
+    dp = Dispatcher()
+    dp.include_router(user_router)
+    dp.include_router(group_router)
+    client = Client(session=<span class="t-str">"my_account"</span>, dispatcher=dp)
+    <span class="t-kw">await</span> client.start()
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    asyncio.run(main())</code></pre>
+    </div>
+
+    <!-- Example Panel 3 -->
+    <div class="ex-panel" id="ex-p-3" role="tabpanel" aria-labelledby="ex-tab-3" hidden>
+      <div class="code-head">
+        <span>examples/03_fsm_conversation.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
       </div>
+      <pre><code><span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client, F
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> Command
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
+
+client = Client(session=<span class="t-str">"my_account"</span>)
+
+<span class="t-kw">@client.on_message</span>(Command(<span class="t-str">"survey"</span>, prefix=<span class="t-str">"!."</span>))
+<span class="t-kw">async def</span> <span class="t-cls">handle_survey</span>(msg: Message):
+    <span class="t-kw">async with</span> client.conversation(msg.chat_guid, timeout=<span class="t-num">60</span>) <span class="t-kw">as</span> conv:
+        <span class="t-kw">await</span> conv.send_message(<span class="t-str">"What is your name?"</span>)
+        name_msg = <span class="t-kw">await</span> conv.get_response()
+
+        <span class="t-kw">await</span> conv.send_message(f<span class="t-str">"Hello {name_msg.text}! How old are you?"</span>)
+        age_msg = <span class="t-kw">await</span> conv.get_response()
+
+        <span class="t-kw">await</span> conv.send_message(f<span class="t-str">"Saved: {name_msg.text}, Age: {age_msg.text}"</span>)
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    client.run()</code></pre>
+    </div>
+
+    <!-- Example Panel 4 -->
+    <div class="ex-panel" id="ex-p-4" role="tabpanel" aria-labelledby="ex-tab-4" hidden>
+      <div class="code-head">
+        <span>examples/04_send_media.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
+      </div>
+      <pre><code><span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> Command
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
+
+client = Client(session=<span class="t-str">"my_account"</span>)
+
+<span class="t-kw">@client.on_message</span>(Command(<span class="t-str">"photo"</span>))
+<span class="t-kw">async def</span> <span class="t-cls">send_photo_demo</span>(msg: Message):
+    <span class="t-kw">await</span> client.send_photo(msg.chat_guid, <span class="t-str">"image.jpg"</span>, caption=<span class="t-str">"Sample Photo"</span>)
+
+<span class="t-kw">@client.on_message</span>(Command(<span class="t-str">"doc"</span>))
+<span class="t-kw">async def</span> <span class="t-cls">send_doc_demo</span>(msg: Message):
+    <span class="t-kw">await</span> client.send_file(msg.chat_guid, <span class="t-str">"report.pdf"</span>, file_name=<span class="t-str">"Report.pdf"</span>)
+
+<span class="t-kw">@client.on_message</span>(Command(<span class="t-str">"voice"</span>))
+<span class="t-kw">async def</span> <span class="t-cls">send_voice_demo</span>(msg: Message):
+    <span class="t-kw">await</span> client.send_voice(msg.chat_guid, <span class="t-str">"voice.ogg"</span>)
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    client.run()</code></pre>
+    </div>
+
+    <!-- Example Panel 5 -->
+    <div class="ex-panel" id="ex-p-5" role="tabpanel" aria-labelledby="ex-tab-5" hidden>
+      <div class="code-head">
+        <span>examples/05_voice_chat.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
+      </div>
+      <pre><code><span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> Command, IsMe
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
+
+client = Client(session=<span class="t-str">"my_account"</span>)
+
+<span class="t-kw">@client.on_message</span>(IsMe(), Command(<span class="t-str">"startvc"</span>, prefix=<span class="t-str">"!."</span>))
+<span class="t-kw">async def</span> <span class="t-cls">start_vc</span>(msg: Message):
+    res = <span class="t-kw">await</span> client.create_voice_chat(msg.chat_guid)
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Voice chat created: {res}"</span>)
+
+<span class="t-kw">@client.on_message</span>(IsMe(), Command(<span class="t-str">"speak"</span>, prefix=<span class="t-str">"!."</span>))
+<span class="t-kw">async def</span> <span class="t-cls">speak_vc</span>(msg: Message):
+    <span class="t-kw">await</span> client.change_voice_chat_voice_status(msg.chat_guid, voice_chat_id=<span class="t-str">"..."</span>, voice_status=<span class="t-kw">True</span>)
+    <span class="t-kw">await</span> msg.reply(<span class="t-str">"Microphone unmuted."</span>)
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    client.run()</code></pre>
+    </div>
+
+    <!-- Example Panel 6 -->
+    <div class="ex-panel" id="ex-p-6" role="tabpanel" aria-labelledby="ex-tab-6" hidden>
+      <div class="code-head">
+        <span>examples/06_anti_spam_moderator.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
+      </div>
+      <pre><code><span class="t-kw">import</span> re
+<span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Client
+<span class="t-kw">from</span> aioshad.filters <span class="t-kw">import</span> IsGroup
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
+
+client = Client(session=<span class="t-str">"moderator_account"</span>)
+LINK_REGEX = re.compile(r<span class="t-str">"(https?://\S+|shad\.ir/\S+)"</span>, re.IGNORECASE)
+
+<span class="t-kw">@client.on_message</span>(IsGroup())
+<span class="t-kw">async def</span> <span class="t-cls">anti_link_checker</span>(msg: Message):
+    <span class="t-kw">if</span> msg.text <span class="t-kw">and</span> LINK_REGEX.search(msg.text):
+        <span class="t-kw">try</span>:
+            <span class="t-kw">await</span> msg.delete(delete_type=<span class="t-str">"Global"</span>)
+        <span class="t-kw">except</span> Exception <span class="t-kw">as</span> exc:
+            print(f<span class="t-str">"Failed to delete: {exc}"</span>)
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    client.run()</code></pre>
+    </div>
+
+    <!-- Example Panel 7 -->
+    <div class="ex-panel" id="ex-p-7" role="tabpanel" aria-labelledby="ex-tab-7" hidden>
+      <div class="code-head">
+        <span>examples/07_multi_account.py</span>
+        <button class="copy" type="button" aria-label="Copy code">
+          <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ok"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span class="msg" data-i18n="copyDone">Copied</span></span>
+        </button>
+      </div>
+      <pre><code><span class="t-kw">from</span> aioshad <span class="t-kw">import</span> Dispatcher, F
+<span class="t-kw">from</span> aioshad.client.manager <span class="t-kw">import</span> ClientManager
+<span class="t-kw">from</span> aioshad.types <span class="t-kw">import</span> Message
+
+dp = Dispatcher()
+
+<span class="t-kw">@dp.message</span>(F.text == <span class="t-str">"!status"</span>)
+<span class="t-kw">async def</span> <span class="t-cls">check_status</span>(msg: Message, client):
+    <span class="t-kw">await</span> msg.reply(f<span class="t-str">"Account active! GUID: {client.me}"</span>)
+
+<span class="t-kw">def</span> <span class="t-cls">main</span>():
+    manager = ClientManager(dispatcher=dp)
+    manager.add_client(session=<span class="t-str">"acc1"</span>, phone_number=<span class="t-str">"09121111111"</span>)
+    manager.add_client(session=<span class="t-str">"acc2"</span>, phone_number=<span class="t-str">"09122222222"</span>)
+    manager.run_all()
+
+<span class="t-kw">if</span> __name__ == <span class="t-str">"__main__"</span>:
+    main()</code></pre>
     </div>
   </section>
 
-  <!-- Complete Documentation Reader -->
-  <main class="docs-main-wrapper" id="docs">
-    <div class="docs-layout">
+  <!-- Comparison Table Section -->
+  <section class="section section--ruled wrap" id="comparison">
+    <h2>Architecture Comparison</h2>
+    <p class="sub">Technical comparison between aioshad and traditional sync/legacy Shad scripts.</p>
 
-      <!-- Left Sidebar -->
-      <aside class="docs-sidebar">
-        <div class="docs-search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" class="docs-search-input" id="docsSearchInput" placeholder="Search documentation...">
-        </div>
-
-        <div class="sidebar-category">
-          <div class="sidebar-cat-title">Getting Started</div>
-          <ul class="sidebar-nav-list">
-            <li><a href="#docs-install" class="sidebar-nav-link active">Installation</a></li>
-            <li><a href="#docs-quickstart" class="sidebar-nav-link">Quickstart</a></li>
-            <li><a href="#docs-auth" class="sidebar-nav-link">Authentication & Sessions</a></li>
-          </ul>
-        </div>
-
-        <div class="sidebar-category">
-          <div class="sidebar-cat-title">Core Architecture</div>
-          <ul class="sidebar-nav-list">
-            <li><a href="#docs-dispatcher" class="sidebar-nav-link">Dispatcher & Routers</a></li>
-            <li><a href="#docs-filters" class="sidebar-nav-link">Filters & Magic Filter F</a></li>
-            <li><a href="#docs-messages" class="sidebar-nav-link">Message Operations</a></li>
-            <li><a href="#docs-conversation" class="sidebar-nav-link">Conversations & FSM</a></li>
-          </ul>
-        </div>
-
-        <div class="sidebar-category">
-          <div class="sidebar-cat-title">Advanced Features</div>
-          <ul class="sidebar-nav-list">
-            <li><a href="#docs-media" class="sidebar-nav-link">Media & File Transfers</a></li>
-            <li><a href="#docs-voicechat" class="sidebar-nav-link">WebRTC Voice Chat</a></li>
-            <li><a href="#docs-multiaccount" class="sidebar-nav-link">Multi-Account Manager</a></li>
-            <li><a href="#docs-cli" class="sidebar-nav-link">CLI Commands Reference</a></li>
-          </ul>
-        </div>
-      </aside>
-
-      <!-- Center Content Article -->
-      <article class="docs-content">
-
-        <!-- 1. Installation -->
-        <section class="docs-section" id="docs-install">
-          <h2>📦 Installation</h2>
-          <p>aioshad is distributed through PyPI as <code>aioshad-py</code>. It requires Python 3.8 or newer.</p>
-          <div class="code-block">
-            <div class="code-header"><span>BASH</span><button class="copy-btn" data-copy="pip install aioshad-py">Copy</button></div>
-            <div class="code-body"><pre><code>pip install aioshad-py</code></pre></div>
-          </div>
-          <p>Or using the ultra-fast <code>uv</code> package manager:</p>
-          <div class="code-block">
-            <div class="code-header"><span>BASH</span><button class="copy-btn" data-copy="uv add aioshad-py">Copy</button></div>
-            <div class="code-body"><pre><code>uv add aioshad-py</code></pre></div>
-          </div>
-          <div class="callout">
-            <p>💡 <strong>Domestic Network:</strong> Shad Messenger hosts are hosted within Iran (<code>*.iranlms.ir</code>). aioshad automatically optimizes connections directly to these gateways for maximum bandwidth and minimum latency.</p>
-          </div>
-        </section>
-
-        <!-- 2. Quickstart -->
-        <section class="docs-section" id="docs-quickstart">
-          <h2>⚡ Quickstart</h2>
-          <p>Here is a complete, minimal selfbot responding to messages and personal commands:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code>import asyncio
-from aioshad import Client, F
-from aioshad.filters import IsMe
-from aioshad.types import Message
-
-# Initialize client with persistent session name
-client = Client(session="my_account")
-
-# Echo any incoming text message starting with "echo "
-@client.on_message(F.text.startswith("echo "))
-async def echo_handler(msg: Message):
-    content = msg.text[5:].strip()
-    await msg.reply(f"📣 {content}")
-
-# Self command: only trigger if sent by you
-@client.on_message(IsMe(), F.text == "!ping")
-async def ping_handler(msg: Message):
-    await msg.edit("🏓 Pong from aioshad!")
-
-if __name__ == "__main__":
-    client.run()</code></pre></div>
-          </div>
-          <p>When running this script for the first time, you will be prompted to enter your phone number and OTP code. An authenticated session file (<code>my_account.session</code>) will be created for seamless subsequent runs.</p>
-        </section>
-
-        <!-- 3. Authentication -->
-        <section class="docs-section" id="docs-auth">
-          <h2>🔐 Authentication & Sessions</h2>
-          <p>aioshad supports multiple session storage backends:</p>
-          <ul>
-            <li><code>FileSessionStorage</code> (default): Stores JSON-formatted session state in <code>&lt;name&gt;.session</code>.</li>
-            <li><code>SQLiteSessionStorage</code>: High-concurrency relational storage in SQLite databases.</li>
-            <li><code>MemorySessionStorage</code>: Ephemeral in-memory storage ideal for tests and serverless jobs.</li>
-          </ul>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code>from aioshad import Client
-from aioshad.session import SQLiteSessionStorage
-
-# Store session in SQLite
-storage = SQLiteSessionStorage("sessions.db")
-client = Client(session="account_1", storage=storage)</code></pre></div>
-          </div>
-          <div class="callout">
-            <p>🔒 <strong>Security Tip:</strong> Never commit <code>*.session</code> files to version control. Always include <code>*.session</code> in your <code>.gitignore</code>.</p>
-          </div>
-        </section>
-
-        <!-- 4. Dispatcher -->
-        <section class="docs-section" id="docs-dispatcher">
-          <h2>🧩 Dispatcher & Routers</h2>
-          <p>For scalable architectures, separate your logic across multiple modular routers:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code>from aioshad import Client, Dispatcher, Router
-from aioshad.filters import Command, CommandObject
-from aioshad.types import Message
-
-user_router = Router(name="users")
-
-@user_router.message(Command("start"))
-async def start_cmd(msg: Message, command: CommandObject):
-    await msg.reply("Welcome to aioshad!")
-
-dp = Dispatcher()
-dp.include_router(user_router)
-
-client = Client(session="my_account", dispatcher=dp)
-client.run()</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 5. Filters -->
-        <section class="docs-section" id="docs-filters">
-          <h2>🎯 Filters & Magic Filter F</h2>
-          <p>Filter updates effortlessly with built-in filters and fluent Magic Filter expressions:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code>from aioshad import F
-from aioshad.filters import Command, IsMe, IsGroup, IsChannel, IsPrivate
-
-# Filter by text prefix or content
-@client.on_message(F.text.lower().contains("python"))
-async def on_python(msg: Message):
-    await msg.reply("Python rocks! 🐍")
-
-# Group-only command
-@client.on_message(IsGroup(), Command("rules"))
-async def on_rules(msg: Message):
-    await msg.reply("1. Be respectful\n2. No spam")</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 6. Message API -->
-        <section class="docs-section" id="docs-messages">
-          <h2>💬 Message Operations</h2>
-          <p>The <code>Message</code> object offers convenient bound methods for chatting:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code># Reply with text
-await msg.reply("Reply text")
-
-# Edit existing message
-await msg.edit("Updated content")
-
-# Delete message globally
-await msg.delete(delete_type="Global")
-
-# Forward to another chat
-await msg.forward(target_chat_guid)
-
-# Fetch chat metadata
-chat = await msg.get_chat()
-print(f"Chat Title: {chat.title}")</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 7. Conversations -->
-        <section class="docs-section" id="docs-conversation">
-          <h2>🧠 Conversations & FSM</h2>
-          <p>Construct sequential, interactive dialogues with the <code>conversation</code> context manager:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code>@client.on_message(Command("survey"))
-async def survey_handler(msg: Message):
-    async with client.conversation(msg.chat_guid, timeout=45) as conv:
-        await conv.send_message("What is your developer username?")
-        username_msg = await conv.get_response()
-
-        await conv.send_message("What is your favorite language?")
-        lang_msg = await conv.get_response()
-
-        await conv.send_message(f"Saved: {username_msg.text} enjoys {lang_msg.text}!")</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 8. Media -->
-        <section class="docs-section" id="docs-media">
-          <h2>📸 Media & File Transfers</h2>
-          <p>High-speed uploads with automated thumbnail generation via Pillow:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code># Send Photo
-await client.send_photo(chat_guid, "avatar.jpg", caption="New Profile Avatar")
-
-# Send Document / PDF
-await client.send_file(chat_guid, "invoice.pdf", file_name="Invoice_101.pdf")
-
-# Send Voice Note
-await client.send_voice(chat_guid, "audio.ogg")
-
-# Download File
-if msg.file_inline:
-    path = await client.download_file(msg.file_inline, destination="downloaded.jpg")</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 9. WebRTC Voice Chat -->
-        <section class="docs-section" id="docs-voicechat">
-          <h2>🎙️ WebRTC Voice Chat</h2>
-          <p>Control group and channel voice chats natively:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code># Start voice chat
-vc_info = await client.create_voice_chat(group_guid)
-
-# Join voice chat
-await client.join_voice_chat(group_guid, voice_chat_id)
-
-# Set speaking status (True = Speaking, False = Muted)
-await client.change_voice_chat_voice_status(group_guid, voice_chat_id, voice_status=True)
-
-# List live participants
-participants = await client.get_voice_chat_participants(group_guid, voice_chat_id)</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 10. Multi-Account -->
-        <section class="docs-section" id="docs-multiaccount">
-          <h2>👥 Multi-Account Orchestration</h2>
-          <p>Manage multiple sessions concurrently with <code>ClientManager</code>:</p>
-          <div class="code-block">
-            <div class="code-header"><span>PYTHON</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code>from aioshad import Dispatcher, F
-from aioshad.client.manager import ClientManager
-from aioshad.types import Message
-
-dp = Dispatcher()
-
-@dp.message(F.text == "!status")
-async def status_cmd(msg: Message, client):
-    await msg.reply(f"Online! Client GUID: {client.me}")
-
-manager = ClientManager(dispatcher=dp)
-manager.add_client(session="bot_1", phone_number="09121111111")
-manager.add_client(session="bot_2", phone_number="09122222222")
-manager.run_all()</code></pre></div>
-          </div>
-        </section>
-
-        <!-- 11. CLI -->
-        <section class="docs-section" id="docs-cli">
-          <h2>🛠️ CLI Commands Reference</h2>
-          <p>aioshad bundles a developer command line tool for rapid setup:</p>
-          <div class="code-block">
-            <div class="code-header"><span>BASH</span><button class="copy-btn">Copy</button></div>
-            <div class="code-body"><pre><code># Scaffold a new modular project
-aioshad init my_new_bot
-
-# Log in and save credentials to session file
-aioshad login -s my_account
-
-# View session diagnostics
-aioshad session-info my_account.session</code></pre></div>
-          </div>
-        </section>
-
-      </article>
-
-      <!-- Right Table of Contents -->
-      <aside class="docs-toc">
-        <div class="toc-title">On This Page</div>
-        <ul class="toc-list">
-          <li class="toc-item"><a href="#docs-install" class="toc-link">Installation</a></li>
-          <li class="toc-item"><a href="#docs-quickstart" class="toc-link">Quickstart</a></li>
-          <li class="toc-item"><a href="#docs-auth" class="toc-link">Authentication</a></li>
-          <li class="toc-item"><a href="#docs-dispatcher" class="toc-link">Dispatcher & Routers</a></li>
-          <li class="toc-item"><a href="#docs-filters" class="toc-link">Filters & Magic F</a></li>
-          <li class="toc-item"><a href="#docs-messages" class="toc-link">Message API</a></li>
-          <li class="toc-item"><a href="#docs-conversation" class="toc-link">Conversations</a></li>
-          <li class="toc-item"><a href="#docs-media" class="toc-link">Media & Files</a></li>
-          <li class="toc-item"><a href="#docs-voicechat" class="toc-link">Voice Chat</a></li>
-          <li class="toc-item"><a href="#docs-multiaccount" class="toc-link">Multi-Account</a></li>
-          <li class="toc-item"><a href="#docs-cli" class="toc-link">CLI Reference</a></li>
-        </ul>
-      </aside>
-
+    <div class="map-wrap">
+      <table class="map">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>aioshad</th>
+            <th>Legacy Scripts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Network Transport</td>
+            <td><code>HTTP/2 Multiplexing (httpx + h2)</code></td>
+            <td><code>HTTP/1.1 blocking (requests)</code></td>
+          </tr>
+          <tr>
+            <td>Cryptography Implementation</td>
+            <td><code>Native AES-256-CBC + RSA-1024 OAEP</code></td>
+            <td><code>Hardcoded / incomplete auth</code></td>
+          </tr>
+          <tr>
+            <td>Gateway Resilience</td>
+            <td><code>Automatic Multi-Host Failover (*.iranlms.ir)</code></td>
+            <td><code>Single hardcoded host</code></td>
+          </tr>
+          <tr>
+            <td>Concurrency Model</td>
+            <td><code>Pure AsyncIO Event Loop</code></td>
+            <td><code>Blocking / Threading pool</code></td>
+          </tr>
+          <tr>
+            <td>Dispatcher &amp; Filtering</td>
+            <td><code>Aiogram 3 Routers &amp; Magic Filter F</code></td>
+            <td><code>Manual if/elif chain</code></td>
+          </tr>
+          <tr>
+            <td>Conversations / FSM</td>
+            <td><code>async with client.conversation(...)</code></td>
+            <td><code>Global dictionaries &amp; flags</code></td>
+          </tr>
+          <tr>
+            <td>WebRTC Voice Chat</td>
+            <td><code>Full support (create, join, status, users)</code></td>
+            <td><code>Unsupported</code></td>
+          </tr>
+          <tr>
+            <td>Multi-Account Support</td>
+            <td><code>Native ClientManager</code></td>
+            <td><code>Manual multiprocessing</code></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </main>
+  </section>
 
   <!-- Site Footer -->
   <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-links">
-        <a href="https://github.com/aminmadaniofficial/aioshad" target="_blank" rel="noopener">GitHub Repository</a>
-        <a href="https://pypi.org/project/aioshad-py/" target="_blank" rel="noopener">PyPI Package</a>
-        <a href="https://github.com/aminmadaniofficial/aioshad/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
-      </div>
-      <p class="footer-copy">© 2026 Mohammadamin Madani. Released under the MIT License.</p>
+    <div class="wrap footer-inner">
+      <a class="brand" href="#top">
+        <img src="logo.svg" alt="aioshad logo" width="18" height="18" />
+        <span>aioshad</span>
+      </a>
+
+      <a href="https://github.com/aminmadaniofficial/aioshad" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://pypi.org/project/aioshad-py/" target="_blank" rel="noopener">PyPI</a>
+      <a href="https://github.com/aminmadaniofficial/aioshad/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+
+      <span class="footer-copy">&copy; 2026 Mohammadamin Madani.</span>
     </div>
   </footer>
 
