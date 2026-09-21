@@ -31,8 +31,8 @@ dev = [
 aioshad = "aioshad.cli.main:main"
 
 [project.urls]
-"Homepage" = "https://github.com/aminmadaniofficial/aioshad-py"
-"Repository" = "https://github.com/aminmadaniofficial/aioshad-py"
+"Homepage" = "https://github.com/aminmadaniofficial/aioshad"
+"Repository" = "https://github.com/aminmadaniofficial/aioshad"
 "PyPI" = "https://pypi.org/project/aioshad-py/"
 
 [tool.setuptools.packages.find]
