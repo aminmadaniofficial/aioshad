@@ -1,6 +1,6 @@
 [project]
 name = "aioshad-py"
-version = "0.1.0"
+version = "0.1.1"
 description = "Modern, fast, fully asynchronous Python framework & self-bot library for Shad Messenger."
 authors = [
     { name = "Amin Madani", email = "aminmadani112@gmail.com" }
