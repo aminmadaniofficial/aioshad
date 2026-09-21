@@ -363,17 +363,9 @@ html[lang="en"] .cell p{line-height:1.6}
 .js .hero-h1.is-in .ln{opacity:1;transform:none;will-change:auto;transition:opacity 420ms var(--ease),transform 420ms var(--ease)}
 .js .hero-h1.is-in .ln:nth-child(2){transition-delay:80ms}
 [data-hero]{opacity:1;transform:none}
-.js [data-hero].is-in{opacity:1;transform:none;transition:opacity 400ms var(--ease),transform 400ms var(--ease)}
 
-.js [data-reveal]:not([data-reveal="cell"]):not(.is-in){opacity:0;will-change:opacity,transform}
-.js [data-reveal="head"]:not(.is-in){transform:translateX(calc(var(--dx) * -1))}
-.js [data-reveal="panel"]:not(.is-in){transform:translateY(12px)}
-.js [data-reveal="row"]:not(.is-in){transform:translateY(8px)}
-.js [data-reveal].is-in:not([data-reveal="cell"]){opacity:1;transform:none;
-  transition:opacity 380ms var(--ease) var(--d,0ms),transform 380ms var(--ease) var(--d,0ms)}
-.js .cell:not(.is-in)>*{opacity:0;transform:translateY(12px);will-change:opacity,transform}
-.js .cell.is-in>*{opacity:1;transform:none;transition:opacity 400ms var(--ease) var(--d,0ms),transform 400ms var(--ease) var(--d,0ms)}
-.js .cell.is-in>*:nth-child(2){transition-delay:calc(var(--d,0ms) + 60ms)}
+.cell>*{opacity:1;transform:none}
+[data-reveal]{opacity:1;transform:none}
 
 .cell{position:relative;isolation:isolate}
 .cell::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border:1px solid var(--muted);

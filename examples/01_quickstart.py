@@ -14,13 +14,13 @@ client = Client(session="my_account")
 @client.on_message(F.text.startswith("echo "))
 async def echo_handler(msg: Message):
     text_to_repeat = msg.text[5:].strip()
-    await msg.reply(f"📣 {text_to_repeat}")
+    await msg.reply(f"Echo: {text_to_repeat}")
 
 
 # Self command: only trigger if YOU sent the message
 @client.on_message(IsMe(), F.text == "!ping")
 async def ping_handler(msg: Message):
-    await msg.edit("🏓 Pong from aioshad selfbot!")
+    await msg.edit("Pong from aioshad selfbot!")
 
 
 if __name__ == "__main__":

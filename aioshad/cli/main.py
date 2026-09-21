@@ -28,7 +28,7 @@ async def main():
     # Initialize Shad client
     client = Client(session=SESSION_NAME, dispatcher=dp)
     
-    print("🚀 Starting aioshad Selfbot...")
+    print("[+] Starting aioshad Selfbot...")
     await client.start()
 
 if __name__ == "__main__":
@@ -54,13 +54,13 @@ router = Router(name="common")
 
 @router.message(Command("ping", prefix="!."))
 async def cmd_ping(msg: Message):
-    await msg.reply("🏓 Pong! aioshad is active.")
+    await msg.reply("Pong! aioshad is active.")
 
 @router.message(Command("info", prefix="!."))
 async def cmd_info(msg: Message):
     chat = await msg.get_chat()
     await msg.reply(
-        f"ℹ️ **اطلاعات چت:**\\n"
+        f"**اطلاعات چت:**\\n"
         f"• عنوان: {chat.title}\\n"
         f"• شناسه چت: `{chat.guid}`\\n"
         f"• شناسه فرستنده: `{msg.author_guid}`"
@@ -93,10 +93,10 @@ REQUIREMENTS_TEMPLATE = """aioshad-py>=0.1.0
 def cmd_startproject(name: str) -> None:
     target_dir = pathlib.Path(name).resolve()
     if target_dir.exists():
-        print(Fore.RED + f"❌ Directory '{name}' already exists!")
+        print(Fore.RED + f"[!] Directory '{name}' already exists!")
         return
 
-    print(Fore.CYAN + f"📦 Generating aioshad Selfbot project in '{name}'...")
+    print(Fore.CYAN + f"[*] Generating aioshad Selfbot project in '{name}'...")
 
     (target_dir / "handlers").mkdir(parents=True, exist_ok=True)
     (target_dir / "middlewares").mkdir(parents=True, exist_ok=True)
@@ -115,8 +115,8 @@ def cmd_startproject(name: str) -> None:
         with open(path, "w", encoding="utf-8") as f:
             f.write(content)
 
-    print(Fore.GREEN + f"✅ Project created successfully at {target_dir}")
-    print(Fore.YELLOW + f"👉 Next steps:\\n  cd {name}\\n  aioshad login\\n  python main.py")
+    print(Fore.GREEN + f"[+] Project created successfully at {target_dir}")
+    print(Fore.YELLOW + f"Next steps:\\n  cd {name}\\n  aioshad login\\n  python main.py")
 
 
 async def _async_login(session_name: str, phone: Optional[str] = None, proxy: Optional[str] = None) -> None:
@@ -124,10 +124,10 @@ async def _async_login(session_name: str, phone: Optional[str] = None, proxy: Op
 
     client = Client(session=session_name, phone_number=phone, proxy=proxy)
     await client.connect()
-    print(Fore.GREEN + f"✅ Successfully logged in! Session saved to '{session_name}.session'")
+    print(Fore.GREEN + f"[+] Successfully logged in! Session saved to '{session_name}.session'")
     if client.session.user_guid:
-        print(Fore.CYAN + f"👤 User GUID: {client.session.user_guid}")
-    print(Fore.MAGENTA + f"🔑 String session: {client.session.export_string()}")
+        print(Fore.CYAN + f"User GUID: {client.session.user_guid}")
+    print(Fore.MAGENTA + f"String session: {client.session.export_string()}")
     await client.stop()
 
 
@@ -138,7 +138,7 @@ def cmd_login(session_name: str, phone: Optional[str] = None, proxy: Optional[st
 def cmd_session_info(session_file: str) -> None:
     path = pathlib.Path(session_file)
     if not path.exists():
-        print(Fore.RED + f"❌ Session file '{session_file}' not found.")
+        print(Fore.RED + f"[!] Session file '{session_file}' not found.")
         return
 
     storage = FileSessionStorage(session_file)
@@ -147,7 +147,7 @@ def cmd_session_info(session_file: str) -> None:
     print(f"Phone: {session.phone_number or 'N/A'}")
     print(f"User GUID: {session.user_guid or 'N/A'}")
     print(f"Host: {session.messenger_host}")
-    print(f"Has Auth: {'Yes ✅' if session.has_auth() else 'No ❌'}")
+    print(f"Has Auth: {'Yes' if session.has_auth() else 'No'}")
     print(f"Last State: {session.state}")
 
 
